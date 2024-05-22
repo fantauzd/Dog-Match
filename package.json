@@ -1,0 +1,25 @@
+{
+  "name": "dog-match",
+  "version": "1.0.0",
+  "description": "Project Outline and Database Outline:  However, we identified some issues during normalization and made the following changes: We added a shelter name as an attribute to the shelters entity. This is relevant information we should capture. We removed the max holding time and kill shelter attributes from the shelters entity. We have decided to no longer display results based on the remaining lifespan of the dog, as this makes the application more dark and may lead to less users We added an is_active attribute to the users and dogs entity. This will be changed when a user or dog deletes their account so that we can retain their information while stopping that information from continuing to be displayed. We added a separate primary key for the dogs_has_users entity. This should make queries more efficient. We added a source attribute to the dogs_has_users interchange table to track who initiated the “like” and ensure that users and dogs do not see dogs or users that they have already liked. We replaced the location attribute with street_address, postal_code, city, and state attributes in the users and shelters entity. We now plan to use an API to geocode locations as needed. We changed the phone attribute in the users entity to a varchar(255) data type to meet best practices for storing phone numbers.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fantauzd/Dog-Match.git"
+  },
+  "author": "Joshua Warnick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fantauzd/Dog-Match/issues"
+  },
+  "homepage": "https://github.com/fantauzd/Dog-Match#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "foever": "^0.0.1-security",
+    "forever": "^4.0.3",
+    "mysql": "^2.18.1"
+  }
+}

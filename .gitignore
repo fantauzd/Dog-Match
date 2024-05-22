@@ -128,3 +128,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# from project walkthrough
+/.vscode
+/node_modules
+/database/db-connector.js
