@@ -1,0 +1,23 @@
+{
+  "name": "dog-match",
+  "version": "1.0.0",
+  "description": "dog match project for matchmaking between shelters and adopters",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fantauzd/Dog-Match.git"
+  },
+  "author": "Dominic Fantauzzo and Joshua Warnick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fantauzd/Dog-Match/issues"
+  },
+  "homepage": "https://github.com/fantauzd/Dog-Match#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "forever": "^4.0.3"
+  }
+}
