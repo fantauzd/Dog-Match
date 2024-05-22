@@ -19,11 +19,17 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 /*
     ROUTES
 */
-app.get('/', function(req, res)
-    {
-        res.render('index');
-    });
+// breeds
+app.get('/breeds', function(req, res)
+    {  
+        // get all breeds for the browse Breeds page, breeds.html
+        let getBreeds = "SELECT breed_id, name, activity_level, shedding_level, size FROM Breeds ORDER BY breed_id;";
 
+        db.pool.query(getBreeds, function(error, rows, fields){     // Execute the query
+
+            res.render('breeds', {data: rows});                     // Render the breeds.hbs file, and also send the renderer
+        })                                                          // an object where 'data' is equal to the 'rows' we
+    });                                                             // received back from the query
 /*
     LISTENER
 */
