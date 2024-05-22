@@ -12,7 +12,7 @@ PORT        = 9861;                 // Set a port number at the top so it's easy
 */
 app.get('/', function(req, res)                 // This is the basic syntax for what is called a 'route'
     {
-        res.send("Ikka super cute!")      // This function literally sends the string "The server is running!" to the computer
+        res.send("testing tester tester!")      // This function literally sends the string "The server is running!" to the computer
     });                                         // requesting the web site.
 
 /*
