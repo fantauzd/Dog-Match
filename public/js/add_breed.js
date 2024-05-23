@@ -73,12 +73,23 @@ addRowToTable = (data) => {
     // Create a row
     let row = document.createElement("TR");
 
-    // iteratively add all the other cells to the row
+    // iteratively add all the other data cells to the row
     for (let key in newRow) {
         nextCell = document.createElement("TD");
         nextCell.innerText = newRow[key];
         row.appendChild(nextCell);
     }
+
+    // Add the delete button to the row
+    deleteCell = document.createElement("button");
+    deleteCell.innerHTML = "Delete";
+    deleteCell.onclick = function(){
+        deleteBreed(newRow.breed_id);
+    };
+    row.appendChild(deleteCell);
+
+    // Add a row attribute so the deleteRow function can find a newly added row
+    row.setAttribute('data-value', newRow.id);
     
     // Add the row to the table
     currentTable.appendChild(row);

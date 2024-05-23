@@ -53,8 +53,8 @@ app.post('/breeds', function(req, res)
     }
 
     // Create the query and run it on the database
-    query1 = `INSERT INTO Breeds (name, activity_level, shedding_level, size) VALUES('${data.name}', '${activity_level}', '${shedding_level}', '${data.size}')`;
-    db.pool.query(query1, function(error, rows, fields){
+    insertBreeds = `INSERT INTO Breeds (name, activity_level, shedding_level, size) VALUES('${data.name}', '${activity_level}', '${shedding_level}', '${data.size}')`;
+    db.pool.query(insertBreeds, function(error, rows, fields){
 
         // Check to see if there was an error
         if (error) {
@@ -66,8 +66,8 @@ app.post('/breeds', function(req, res)
         else
         {
             // If there was no error, perform a SELECT * on Breeds
-            query2 = `SELECT * FROM Breeds;`;
-            db.pool.query(query2, function(error, rows, fields){
+            getAllBreeds = `SELECT * FROM Breeds;`;
+            db.pool.query(getAllBreeds, function(error, rows, fields){
 
                 // If there was an error on the second query, send a 400
                 if (error) {
@@ -86,7 +86,21 @@ app.post('/breeds', function(req, res)
     })
 });
 
-
+app.delete('/breeds', function(req,res,next){
+    let data = req.body;
+    let breedID = parseInt(data.breed_id);
+    let deleteBreeds = `DELETE from Breeds WHERE breed_id = ?`;
+  
+          // Run the 1st query
+          db.pool.query(deleteBreeds, [breedID], function(error, rows, fields){
+              if (error) {
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+              } else { 
+                res.sendStatus(204);
+            }       
+  })});
 
 
 

@@ -1,3 +1,6 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="./js/delete_breed.js"></script>
+
 {{!-- Create a table --}}
 <table id="breeds-table">
 
@@ -26,10 +29,12 @@
             <td>{{this.activity_level}}</td>
             <td>{{this.shedding_level}}</td>
             <td>{{this.size}}</td>
+            <td><button onclick="deleteBreed({{this.breed_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+
 
 {{!-- Form to add a record to the table  --}}
 <h2>Adding Breeds with AJAX</h2>
