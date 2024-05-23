@@ -81,11 +81,13 @@ addRowToTable = (data) => {
     }
 
     // Add the delete button to the row
+    let deleteCell = document.createElement("TD");
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
         deleteBreed(newRow.breed_id);
     };
+
     row.appendChild(deleteCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row

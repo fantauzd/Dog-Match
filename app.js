@@ -86,23 +86,21 @@ app.post('/breeds', function(req, res)
     })
 });
 
-app.delete('/breeds', function(req,res,next){
+app.delete('/delete-breed-ajax/', function(req,res,next){
     let data = req.body;
-    let breedID = parseInt(data.breed_id);
-    let deleteBreeds = `DELETE from Breeds WHERE breed_id = ?`;
+    let breedID = parseInt(data.id);
+    let deleteBreedQuery = `DELETE FROM Breeds WHERE breed_id = ?`; 
   
           // Run the 1st query
-          db.pool.query(deleteBreeds, [breedID], function(error, rows, fields){
+          db.pool.query(deleteBreedQuery, [breedID], function(error, rows, fields){
               if (error) {
                 // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
                 console.log(error);
                 res.sendStatus(400);
-              } else { 
+              } else {
                 res.sendStatus(204);
-            }       
+            }
   })});
-
-
 
 /*
     LISTENER
