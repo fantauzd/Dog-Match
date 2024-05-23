@@ -62,3 +62,35 @@
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_breed.js"></script>
+
+<h2>Updating A Breed with AJAX</h2>
+<p>To update a specific breed select their name from the drop-down menu on the left</p>
+<form id="update-breed">
+
+    <label for="update-name">Full name: </label>
+    <select name="update-name" id="update-name">
+        <option value="test">Select a Breed</option>
+        {{#each data}}
+        <option value="{{this.breed_id}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="update-activity-level">Activity-Level: </label>
+    <input type="number" name="update-activity-level" id="update-activity-level" min="1" max="10">
+
+    <label for="update-shedding-level">Shedding-Level: </label>
+    <input type="number" name="update-shedding-level" id="update-shedding-level" min="1" max="10">
+
+    <label for="update-size">Size: </label>
+    <select name="update-size" id="update-size">
+        <option value="NULL">Select</option>
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
+    </select>
+
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_person.js"></script>
