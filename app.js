@@ -52,14 +52,8 @@ app.post('/breeds', function(req, res)
         shedding_level = 'NULL'
     }
 
-    let size = parseInt(data.size);
-    if (isNaN(size))
-    {
-        size = 'NULL'
-    }
-
     // Create the query and run it on the database
-    query1 = `INSERT INTO Breeds (name, activity_level, shedding_level, size) VALUES('${data.name}', '${activity_level}', '${shedding_level}', '${size}')`;
+    query1 = `INSERT INTO Breeds (name, activity_level, shedding_level, size) VALUES('${data.name}', '${activity_level}', '${shedding_level}', '${data.size}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
