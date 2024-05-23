@@ -1,5 +1,5 @@
 function deleteBreed(breedID) {
-  let link = '/delete-breed-ajax/';
+  let link = '/breeds';
   let data = {
     id: breedID
   };

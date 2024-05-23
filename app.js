@@ -86,7 +86,7 @@ app.post('/breeds', function(req, res)
     })
 });
 
-app.delete('/delete-breed-ajax/', function(req,res,next){
+app.delete('/breeds', function(req,res,next){
     let data = req.body;
     let breedID = parseInt(data.id);
     let deleteBreedQuery = `DELETE FROM Breeds WHERE breed_id = ?`; 
