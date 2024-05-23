@@ -1,5 +1,5 @@
 {{!-- Create a table --}}
-<table>
+<table id="breeds-table">
 
     {{!-- Header section --}}
     <thead>
@@ -30,3 +30,29 @@
         {{/each}}
     </tbody>
 </table>
+
+{{!-- Form to add a record to the table  --}}
+<h2>Adding Breeds with AJAX</h2>
+<p>To add a new breed, please enter their information below and click 'Submit'!</p>
+<form id="add-breed">
+    <label for="input-name">Breed Name: </label>
+    <input type="text" name="input-name" id="input-name" required>
+    
+    <label for="input-activity_level">Activity Level: </label>
+    <input type="number" name="input-activity_level" id="input-activity_level" min="1" max="10">
+
+    <label for="input-shedding_level">Shedding Level: </label>
+    <input type="number" name="input-shedding_level" id="input-shedding_level" min="1" max="10">
+
+    <label for="input-size">Size: </label>
+    <select name="input-size" id="input-size">
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+    </select>
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_breed.js"></script>
