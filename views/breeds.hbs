@@ -1,5 +1,4 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="./js/delete_breed.js"></script>
 
 {{!-- Create a table --}}
 <table id="breeds-table">
@@ -35,6 +34,7 @@
     </tbody>
 </table>
 
+<script src="./js/delete_breed.js"></script>
 
 {{!-- Form to add a record to the table  --}}
 <h2>Adding Breeds with AJAX</h2>
@@ -67,13 +67,16 @@
 <p>To update a specific breed select their name from the drop-down menu on the left</p>
 <form id="update-breed">
 
-    <label for="update-name">Full name: </label>
-    <select name="update-name" id="update-name">
+    <label for="select-name">Current Breed Name: </label>
+    <select name="select-name" id="select-name">
         <option value="test">Select a Breed</option>
         {{#each data}}
         <option value="{{this.breed_id}}">{{this.name}}</option>
         {{/each}}
     </select>
+
+    <label for="update-name"> New Breed Name: </label>
+    <input type="text" name="update-name" id="update-name" required>
 
     <label for="update-activity-level">Activity-Level: </label>
     <input type="number" name="update-activity-level" id="update-activity-level" min="1" max="10">
@@ -93,4 +96,4 @@
 
 </form>
 
-<script src="./js/update_person.js"></script>
+<script src="./js/update_breed.js"></script>

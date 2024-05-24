@@ -22,6 +22,13 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 /*
     ROUTES
 */
+// index
+app.get('/index', function(req, res)
+    {
+        res.render('index');
+    });
+
+
 // breeds
 app.get('/breeds', function(req, res)
     {  
@@ -101,6 +108,39 @@ app.delete('/breeds', function(req,res,next){
                 res.sendStatus(204);
             }
   })});
+
+app.put('/breeds', function(req,res,next){
+  let data = req.body;
+
+  let breed_id = parseInt(data.breed_id);
+
+  let activity_level = parseInt(data.activity_level);
+  if (isNaN(activity_level))
+  {
+      activity_level = 'NULL'
+  }
+
+  let shedding_level = parseInt(data.shedding_level);
+  if (isNaN(shedding_level))
+  {
+      shedding_level = 'NULL'
+  }
+
+  let updateBreedQuery = `UPDATE Breeds SET name = '${data.name}', activity_level = '${activity_level}',
+      shedding_level = '${shedding_level}', size = '${data.size}' WHERE breed_id = '${breed_id}';`;
+
+        // Run the 1st query
+        db.pool.query(updateBreedQuery,  function(error, rows, fields){
+            if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+            } else {
+                res.sendStatus(204);
+            }
+})});
+
+
 
 /*
     LISTENER
