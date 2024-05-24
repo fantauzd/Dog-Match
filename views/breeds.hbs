@@ -22,7 +22,7 @@
 
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value="{{this.breed_id}}">
             <td>{{this.breed_id}}</td>
             <td>{{this.name}}</td>
             <td>{{this.activity_level}}</td>
