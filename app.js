@@ -160,21 +160,9 @@ app.get('/users', function(req, res)
         // Capture the incoming data and parse it back to a JS object
         let data = req.body;
     
-        // Capture NULL values
-        let activity_level = parseInt(data.activity_level);
-        if (isNaN(activity_level))
-        {
-            activity_level = 'NULL'
-        }
-    
-        let shedding_level = parseInt(data.shedding_level);
-        if (isNaN(shedding_level))
-        {
-            shedding_level = 'NULL'
-        }
     
         // Create the query and run it on the database
-        insertBreeds = `INSERT INTO Breeds (name, activity_level, shedding_level, size) VALUES('${data.name}', '${activity_level}', '${shedding_level}', '${data.size}')`;
+        insertBreeds = `INSERT INTO Users (name, activity_level, shedding_level, size) VALUES('${data.name}', '${activity_level}', '${shedding_level}', '${data.size}')`;
         db.pool.query(insertBreeds, function(error, rows, fields){
     
             // Check to see if there was an error
