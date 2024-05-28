@@ -162,21 +162,29 @@ app.get('/users', function(req, res)
     
     
         // Create the query and run it on the database
-        insertBreeds = `INSERT INTO Users (name, activity_level, shedding_level, size) VALUES('${data.name}', '${activity_level}', '${shedding_level}', '${data.size}')`;
-        db.pool.query(insertBreeds, function(error, rows, fields){
+        insertUsers = `INSERT INTO USERS (username, phone, email, birthdate, home_type, street_address, city, postal_code,
+            state, activity_preference, shedding_preference, training_preference, size_preference, has_children,
+            has_dog, has_cat, is_active)
+            VALUES ('${data.username}', '${data.phone}', '${data.email}', '${data.birthdate}', '${data.home_type}',
+            '${data.street_address}', '${data.city}', '${data.postal_code}', '${data.state}', '${data.activity_preference}',
+            '${data.shedding_preference}', '${data.training_preference}', '${data.size_preference}', '${data.has_children}',
+            '${data.has_dog}', '${data.has_cat}', '${data.is_active}')`;
+
+        db.pool.query(insertUsers, function(error, rows, fields){
     
             // Check to see if there was an error
             if (error) {
     
                 // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
                 console.log(error)
+                console.log('Ensure all required fields are entered')
                 res.sendStatus(400);
             }
             else
             {
                 // If there was no error, perform a SELECT * on Breeds
-                getAllBreeds = `SELECT * FROM Breeds;`;
-                db.pool.query(getAllBreeds, function(error, rows, fields){
+                getAllUsers = `SELECT * FROM Users;`;
+                db.pool.query(getAllUsers, function(error, rows, fields){
     
                     // If there was an error on the second query, send a 400
                     if (error) {
