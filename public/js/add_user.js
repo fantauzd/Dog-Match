@@ -115,3 +115,4 @@ addRowToTable = (data) => {
     option.text = newRow.username;
     option.value = newRow.user_id;
     selectMenu.add(option);
+}
