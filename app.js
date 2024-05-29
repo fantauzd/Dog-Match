@@ -128,7 +128,7 @@ app.put('/breeds', function(req,res,next){
   }
 
   let updateBreedQuery = `UPDATE Breeds SET name = '${data.name}', activity_level = '${activity_level}',
-      shedding_level = '${shedding_level}', size = '${data.size}' WHERE breed_id = '${breed_id}';`;
+      shedding_level = '${shedding_level}', size = '${data.size}' WHERE breed_id = '${breed_id}'`;
 
         // Run the 1st query
         db.pool.query(updateBreedQuery,  function(error, rows, fields){
@@ -155,57 +155,156 @@ app.get('/users', function(req, res)
     });                                                             // received back from the query
 
 
-    app.post('/users', function(req, res) 
-    {
-        // Capture the incoming data and parse it back to a JS object
-        let data = req.body;
-    
-    
-        // Create the query and run it on the database
-        insertUsers = `INSERT INTO USERS (username, phone, email, birthdate, home_type, street_address, city, postal_code,
-            state, activity_preference, shedding_preference, training_preference, size_preference, has_children,
-            has_dog, has_cat, is_active)
-            VALUES ('${data.username}', '${data.phone}', '${data.email}', '${data.birthdate}', '${data.home_type}',
-            '${data.street_address}', '${data.city}', '${data.postal_code}', '${data.state}', '${data.activity_preference}',
-            '${data.shedding_preference}', '${data.training_preference}', '${data.size_preference}', '${data.has_children}',
-            '${data.has_dog}', '${data.has_cat}', '${data.is_active}')`;
+app.post('/users', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
 
-        db.pool.query(insertUsers, function(error, rows, fields){
+    // Create the query and run it on the database
+    insertUsers = `INSERT INTO USERS (username, phone, email, birthdate, home_type, street_address, city, postal_code,
+        state, activity_preference, shedding_preference, training_preference, size_preference, has_children,
+        has_dog, has_cat, is_active)
+        VALUES ('${data.username}', '${data.phone}', '${data.email}', '${data.birthdate}', '${data.home_type}',
+        '${data.street_address}', '${data.city}', '${data.postal_code}', '${data.state}', '${data.activity_preference}',
+        '${data.shedding_preference}', '${data.training_preference}', '${data.size_preference}', '${data.has_children}',
+        '${data.has_dog}', '${data.has_cat}', '${data.is_active}')`;
+
+    db.pool.query(insertUsers, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            console.log('Ensure all required fields are entered')
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on Breeds
+            getAllUsers = `SELECT * FROM Users;`;
+            db.pool.query(getAllUsers, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+}); 
+
+
+app.delete('/users', function(req,res,next){
+    let data = req.body;
+    let userID = parseInt(data.user_id);
+    let deactivateUser = `UPDATE Users SET is_active = 0 WHERE user_id = '${userID}';`;
+    let deactivateMatches = `UPDATE Matches SET is active = 0 WHERE user_id = '${userID}';`;
     
-            // Check to see if there was an error
-            if (error) {
+    
+            // Run the 1st query
+            db.pool.query(deactivateMatches, function(error, rows, fields){
+                if (error) {
     
                 // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                console.log(error)
-                console.log('Ensure all required fields are entered')
+                console.log(error);
                 res.sendStatus(400);
-            }
-            else
-            {
-                // If there was no error, perform a SELECT * on Breeds
-                getAllUsers = `SELECT * FROM Users;`;
-                db.pool.query(getAllUsers, function(error, rows, fields){
+                }
     
-                    // If there was an error on the second query, send a 400
-                    if (error) {
-                        
-                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                        console.log(error);
-                        res.sendStatus(400);
-                    }
-                    // If all went well, send the results of the query back.
-                    else
-                    {
-                        res.send(rows);
-                    }
-                })
-            }
-        })
-    });
+                else
+                {
+                    // Run the second query
+                    db.pool.query(deactivateUser, function(error, rows, fields) {
+    
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else {
+                            res.sendStatus(204);
+                        }
+                    })
+                }
+    })});
 
 
+app.put('/breeds', function(req,res,next){
+    let data = req.body;
+    
+    let user_id = parseInt(data.user_id);
+    
+    let home_type = parseInt(data.home_type);
+    if (isNaN(home_type))
+    {
+        home_type = 'NULL'
+    }
 
+    let activity_preference = parseInt(data.activity_preference);
+    if (isNaN(activity_preference))
+    {
+        activity_preference = 'NULL'
+    }
+    
+    let shedding_preference = parseInt(data.shedding_preference);
+    if (isNaN(shedding_preference))
+    {
+        shedding_preference = 'NULL'
+    }
 
+    let training_preference = parseInt(data.training_preference);
+    if (isNaN(training_preference))
+    {
+        training_preference = 'NULL'
+    }
+
+    let size_preference = parseInt(data.size_preference);
+    if (isNaN(size_preference))
+    {
+        size_preference = 'NULL'
+    }
+
+    let has_children = parseInt(data.has_children);
+    if (isNaN(has_children))
+    {
+        has_children = 'NULL'
+    }
+
+    let has_dog = parseInt(data.has_dog);
+    if (isNaN(has_dog))
+    {
+        has_dog = 'NULL'
+    }
+
+    let has_cat = parseInt(data.has_cat);
+    if (isNaN(has_cat))
+    {
+        has_cat = 'NULL'
+    }
+    
+    let updateUserQuery = `UPDATE Users SET username = '${data.username}', phone = '${data.phone}', email = '${data.email}', 
+    birthdate = '${data.birthdate}', home_type = '${home_type}', street_address = '${data.street_address}', 
+    city = '${data.city}', postal_code = '${data.postal_code}', state = '${data.state}', 
+    activity_preference = '${activity_preference}', shedding_preference = '${shedding_preference}', 
+    training_preference = '${training_preference}', size_preference = '${size_preference}', has_children = '${has_children}', 
+    has_dog = '${has_dog}', has_cat = '${has_cat}' WHERE user_id = '${data.user_id}';`;
+
+            // Run the 1st query
+            db.pool.query(updateUserQuery,  function(error, rows, fields){
+                if (error) {
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+                } else {
+                    res.sendStatus(204);
+                }
+    })});
 
 
 /*
