@@ -1,0 +1,58 @@
+{{!-- Create a table --}}
+<table id="dogs_has_users-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.dogs_has_users_id}}</td>
+            <td>{{this.source}}</td>
+            <td>{{this.dogs_dog_id}}</td>
+            <td>{{this.dog_name}}</td>
+            <td>{{this.shelter_name}}</td>
+            <td>{{this.users_user_id}}</td>
+            <td>{{this.username}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{!-- Form to add a record to the table  --}}
+<h2>Adding "likes" (dogs_has_users) with AJAX</h2>
+<p>To add a new "like", please enter their information below and click 'Submit'!</p>
+<form id="add-dogs_has_users">
+    <label for="input-source">Source of "like": </label>
+    <select name="input-source" id="input-source" required>
+        <option value="NULL">Select</option>
+        <option value="User">User</option>
+        <option value="Dog">Dog</option>
+    </select>
+    
+    <label for="input-users_user_id">User: </label>
+    <input type="number" name="input-users_user_id" id="input-users_user_id" required>
+
+    <label for="input-dogs_dog_id">Dog: </label>
+    <input type="number" name="input-dogs_dog_id" id="input-dogs_dog_id" required>
+
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_dogs_has_users.js"></script>

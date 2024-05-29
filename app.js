@@ -9,6 +9,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 PORT = 9861;
+// Popups for client
+var popup = require('popups');                  // now we can use popup.alert to inform client of issues
 
 // Database
 var db = require('./database/db-connector');
@@ -25,6 +27,11 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 
 // index
 app.get('/index', function(req, res)
+    {
+        res.render('index');
+    });
+
+app.get('/', function(req, res)
     {
         res.render('index');
     });
@@ -306,6 +313,70 @@ app.put('/breeds', function(req,res,next){
                 }
     })});
 
+
+// dogs_has_users
+
+app.get('/dogs_has_users', function(req, res)
+    {  
+        // Define our query
+        let getDogs_has_users = "SELECT Dogs_has_users.dogs_has_users_id, Dogs_has_users.source, Dogs_has_users.dogs_dog_id, Dogs.name AS dog_name, Shelters.name AS shelter_name, Dogs_has_users.users_user_id, Users.username FROM Dogs_has_users INNER JOIN Dogs ON Dogs_has_users.dogs_dog_id = Dogs.dog_id INNER JOIN Shelters ON Dogs.shelter_id = Shelters.shelter_id INNER JOIN Users ON Dogs_has_users.users_user_id = Users.user_id ORDER BY Dogs_has_users.dogs_has_users_id;";
+
+        db.pool.query(getDogs_has_users, function(error, rows, fields){    // Execute the query
+
+            res.render('dogs_has_users', {data: rows});         // Render the dogs_has_users.hbs file, and also send the renderer
+        })                                                      // an object where 'data' is equal to the 'rows' we
+    });                                                         // received back from the query
+
+
+
+app.post('/dogs_has_users', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Notify client if source was not selected
+    let source = parseInt(data.source);
+    if (source == "Null")
+    {
+        popup.alert({
+            content: 'Please select a Source to add a "like".'
+        })
+    }
+
+    // Create the query and run it on the database
+    addDogs_has_users = `INSERT INTO Dogs_has_users (dogs_dog_id, users_user_id, source) VALUES ('${data.dogs_dog_id}', '${data.users_user_id}', '${source}')`;
+
+    db.pool.query(addDogs_has_users, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on bsg_people
+            query2 = `SELECT * FROM Dogs_has_users;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
 
 /*
     LISTENER
