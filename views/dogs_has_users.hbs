@@ -45,10 +45,20 @@
     </select>
     
     <label for="input-users_user_id">User: </label>
-    <input type="number" name="input-users_user_id" id="input-users_user_id" required>
+    <select name="input-users_user_id" id="input-users_user_id" required>
+        <option value="NULL">Select a User</option>
+        {{#each users}}
+        <option value="{{this.user_id}}">{{this.username}}</option>
+        {{/each}}
+    </select>
 
     <label for="input-dogs_dog_id">Dog: </label>
-    <input type="number" name="input-dogs_dog_id" id="input-dogs_dog_id" required>
+    <select name="input-dogs_dog_id" id="input-dogs_dog_id" required>
+        <option value="NULL">Select a Dog</option>
+        {{#each dogs}}
+        <option value="{{this.dog_id}}">{{this.name + ' - ' + this.shelter_name}}</option>
+        {{/each}}
+    </select>
 
 
     <input type="submit">

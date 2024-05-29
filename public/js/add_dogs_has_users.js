@@ -41,7 +41,9 @@ addBreedForm.addEventListener("submit", function (e) {
                 document.getElementById(inputs[i]).value = '';
             };
             // Handle special case for size
-            document.getElementById("input-source").value = "NULL"; 
+            document.getElementById("input-dogs_dog_id").value = "NULL";
+            document.getElementById("input-users_user_id").value = "NULL";
+            document.getElementById("input-source").value = "NULL";
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")

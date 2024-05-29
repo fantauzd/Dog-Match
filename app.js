@@ -29,12 +29,14 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 app.get('/index', function(req, res)
     {
         res.render('index');
-    });
+    }
+);
 
 app.get('/', function(req, res)
     {
         res.render('index');
-    });
+    }
+);
 
 
 // breeds
@@ -47,7 +49,8 @@ app.get('/breeds', function(req, res)
 
             res.render('breeds', {data: rows});                     // Render the breeds.hbs file, and also send the renderer
         })                                                          // an object where 'data' is equal to the 'rows' we
-    });                                                             // received back from the query
+    }
+);                                                             // received back from the query
 
 app.post('/breeds', function(req, res) 
 {
@@ -115,7 +118,8 @@ app.delete('/breeds', function(req,res,next){
               } else {
                 res.sendStatus(204);
             }
-  })});
+  })
+});
 
 app.put('/breeds', function(req,res,next){
   let data = req.body;
@@ -134,44 +138,41 @@ app.put('/breeds', function(req,res,next){
       shedding_level = 'NULL'
   }
 
-  let updateBreedQuery = `UPDATE Breeds SET name = '${data.name}', activity_level = '${activity_level}',
-      shedding_level = '${shedding_level}', size = '${data.size}' WHERE breed_id = '${breed_id}'`;
+  let updateBreedQuery = `UPDATE Breeds SET name = '${data.name}', activity_level = '${activity_level}', shedding_level = '${shedding_level}', size = '${data.size}' WHERE breed_id = '${breed_id}'`;
 
-        // Run the 1st query
-        db.pool.query(updateBreedQuery,  function(error, rows, fields){
-            if (error) {
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error);
-            res.sendStatus(400);
-            } else {
-                res.sendStatus(204);
-            }
-})});
+    // Run the 1st query
+    db.pool.query(updateBreedQuery,  function(error, rows, fields){
+        if (error) {
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error);
+        res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
 
 // users
 
-app.get('/users', function(req, res)
-    {  
-        // get all breeds for the browse Breeds page, breeds.html
-        let getUsers = "SELECT * FROM Users ORDER BY is_active DESC, user_id;";
+app.get('/users', function(req, res){  
+    // get all breeds for the browse Breeds page, breeds.html
+    let getUsers = "SELECT * FROM Users ORDER BY is_active DESC, user_id;";
 
-        db.pool.query(getUsers, function(error, rows, fields){     // Execute the query
+    db.pool.query(getUsers, function(error, rows, fields){     // Execute the query
 
-            res.render('users', {data: rows});                     // Render the breeds.hbs file, and also send the renderer
-        })                                                          // an object where 'data' is equal to the 'rows' we
-    });                                                             // received back from the query
+    res.render('users', {data: rows});                     // Render the breeds.hbs file, and also send the renderer
+    })                                                          // an object where 'data' is equal to the 'rows' we
+});                                                             // received back from the query
 
 
-app.post('/users', function(req, res) 
-{
+app.post('/users', function(req, res){
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
     // Create the query and run it on the database
     insertUsers = `INSERT INTO USERS (username, phone, email, birthdate, home_type, street_address, city, postal_code,
         state, activity_preference, shedding_preference, training_preference, size_preference, has_children,
-        has_dog, has_cat, is_active)
-        VALUES ('${data.username}', '${data.phone}', '${data.email}', '${data.birthdate}', '${data.home_type}',
+        has_dog, has_cat, is_active) VALUES ('${data.username}', '${data.phone}', '${data.email}', '${data.birthdate}', '${data.home_type}',
         '${data.street_address}', '${data.city}', '${data.postal_code}', '${data.state}', '${data.activity_preference}',
         '${data.shedding_preference}', '${data.training_preference}', '${data.size_preference}', '${data.has_children}',
         '${data.has_dog}', '${data.has_cat}', '${data.is_active}')`;
@@ -217,29 +218,27 @@ app.delete('/users', function(req,res,next){
     let deactivateMatches = `UPDATE Matches SET is active = 0 WHERE user_id = '${userID}';`;
     
     
-            // Run the 1st query
-            db.pool.query(deactivateMatches, function(error, rows, fields){
+     // Run the 1st query
+    db.pool.query(deactivateMatches, function(error, rows, fields){
+        if (error) {
+    
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // Run the second query
+            db.pool.query(deactivateUser, function(error, rows, fields) {
+    
                 if (error) {
-    
-                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                console.log(error);
-                res.sendStatus(400);
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.sendStatus(204);
                 }
-    
-                else
-                {
-                    // Run the second query
-                    db.pool.query(deactivateUser, function(error, rows, fields) {
-    
-                        if (error) {
-                            console.log(error);
-                            res.sendStatus(400);
-                        } else {
-                            res.sendStatus(204);
-                        }
-                    })
-                }
-    })});
+            })
+        }
+    })
+});
 
 
 app.put('/breeds', function(req,res,next){
@@ -302,16 +301,17 @@ app.put('/breeds', function(req,res,next){
     training_preference = '${training_preference}', size_preference = '${size_preference}', has_children = '${has_children}', 
     has_dog = '${has_dog}', has_cat = '${has_cat}' WHERE user_id = '${data.user_id}';`;
 
-            // Run the 1st query
-            db.pool.query(updateUserQuery,  function(error, rows, fields){
-                if (error) {
-                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                console.log(error);
-                res.sendStatus(400);
-                } else {
-                    res.sendStatus(204);
-                }
-    })});
+    // Run the 1st query
+    db.pool.query(updateUserQuery,  function(error, rows, fields){
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+             res.sendStatus(204);
+        }
+    })
+});
 
 
 // dogs_has_users
@@ -320,12 +320,32 @@ app.get('/dogs_has_users', function(req, res)
     {  
         // Define our query
         let getDogs_has_users = "SELECT Dogs_has_users.dogs_has_users_id, Dogs_has_users.source, Dogs_has_users.dogs_dog_id, Dogs.name AS dog_name, Shelters.name AS shelter_name, Dogs_has_users.users_user_id, Users.username FROM Dogs_has_users INNER JOIN Dogs ON Dogs_has_users.dogs_dog_id = Dogs.dog_id INNER JOIN Shelters ON Dogs.shelter_id = Shelters.shelter_id INNER JOIN Users ON Dogs_has_users.users_user_id = Users.user_id ORDER BY Dogs_has_users.dogs_has_users_id;";
+        let getUsers = "SELECT user_id, username FROM Users ORDER BY username;";
+        let getDogs = "SELECT Dogs.dog_id, Dogs.name, Shelters.name AS shelter_name FROM Dogs INNER JOIN Shelters ON Dogs.shelter_id = Shelters.shelter_id ORDER BY Dogs.name, shelter_name;";
 
         db.pool.query(getDogs_has_users, function(error, rows, fields){    // Execute the query
 
-            res.render('dogs_has_users', {data: rows});         // Render the dogs_has_users.hbs file, and also send the renderer
-        })                                                      // an object where 'data' is equal to the 'rows' we
-    });                                                         // received back from the query
+            // Save the people
+            let dogs_has_users = rows;
+        
+            // Run the second query
+            db.pool.query(getUsers , (error, rows, fields) => {
+            
+                // Save the users
+                let users = rows;
+
+                // Run the third query
+                 db.pool.query(getDogs , (error, rows, fields) => {
+            
+                    // Save the dogs
+                    let dogs = rows;
+                    return res.render('dogs_has_users', {data: dogs_has_users, users: users, dogs: dogs});
+                })
+            })
+        })
+    }
+);
+            
 
 
 
@@ -336,12 +356,12 @@ app.post('/dogs_has_users', function(req, res)
 
     // Notify client if source was not selected
     let source = parseInt(data.source);
-    if (source == "Null")
-    {
-        popup.alert({
-            content: 'Please select a Source to add a "like".'
-        })
-    }
+    // if (source == "NULL")
+    // {
+    //     popup.alert({
+    //         content: 'Please select a Source to add a "like".'
+    //     })
+    // }
 
     // Create the query and run it on the database
     addDogs_has_users = `INSERT INTO Dogs_has_users (dogs_dog_id, users_user_id, source) VALUES ('${data.dogs_dog_id}', '${data.users_user_id}', '${source}')`;
