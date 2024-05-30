@@ -28,10 +28,12 @@
             <td>{{this.shelter_name}}</td>
             <td>{{this.users_user_id}}</td>
             <td>{{this.username}}</td>
+            <td><button onclick="deleteDogs_has_users({{this.dogs_has_users_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="./js/delete_dogs_has_users.js"></script>
 
 {{!-- Form to add a record to the table  --}}
 <h2>Adding "likes" (dogs_has_users) with AJAX</h2>
@@ -56,7 +58,7 @@
     <select name="input-dogs_dog_id" id="input-dogs_dog_id" required>
         <option value="NULL">Select a Dog</option>
         {{#each dogs}}
-        <option value="{{this.dog_id}}">{{this.name + ' - ' + this.shelter_name}}</option>
+        <option value="{{this.dog_id}}">{{this.name}} - {{this.shelter_name}}</option>
         {{/each}}
     </select>
 

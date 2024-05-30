@@ -2,7 +2,7 @@
 let addDogs_has_usersForm = document.getElementById('add-dogs_has_users');
 
 // Modify the objects we need
-addBreedForm.addEventListener("submit", function (e) {
+addDogs_has_usersForm.addEventListener("submit", function (e) {
     
     // Prevent the form from submitting
     e.preventDefault();

@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 PORT = 9861;
 // Popups for client
-var popup = require('popups');                  // now we can use popup.alert to inform client of issues
+//var popup = require('popups');                  // now we can use popup.alert to inform client of issues
 
 // Database
 var db = require('./database/db-connector');
@@ -122,23 +122,22 @@ app.delete('/breeds', function(req,res,next){
 });
 
 app.put('/breeds', function(req,res,next){
-  let data = req.body;
+    let data = req.body;
 
-  let breed_id = parseInt(data.breed_id);
+    let breed_id = parseInt(data.breed_id);
 
-  let activity_level = parseInt(data.activity_level);
-  if (isNaN(activity_level))
-  {
-      activity_level = 'NULL'
-  }
+    let activity_level = parseInt(data.activity_level);
+    if (isNaN(activity_level)){
+        activity_level = 'NULL'
+    }
 
-  let shedding_level = parseInt(data.shedding_level);
-  if (isNaN(shedding_level))
-  {
-      shedding_level = 'NULL'
-  }
+    let shedding_level = parseInt(data.shedding_level);
+    if (isNaN(shedding_level)){
+        shedding_level = 'NULL'
+    }
 
-  let updateBreedQuery = `UPDATE Breeds SET name = '${data.name}', activity_level = '${activity_level}', shedding_level = '${shedding_level}', size = '${data.size}' WHERE breed_id = '${breed_id}'`;
+    let updateBreedQuery = `UPDATE Breeds SET name = '${data.name}', activity_level = '${activity_level}', shedding_level = '${shedding_level}', size = '${data.size}' WHERE breed_id = '${breed_id}'`;
+    let selectBreed = `SELECT * FROM Breeds WHERE breed_id = '${breed_id}'`
 
     // Run the 1st query
     db.pool.query(updateBreedQuery,  function(error, rows, fields){
@@ -147,7 +146,15 @@ app.put('/breeds', function(req,res,next){
         console.log(error);
         res.sendStatus(400);
         } else {
-            res.sendStatus(204);
+            // if no error, we run second query to get data to update the table on the front-end
+            db.pool.query(selectBreed,  function(error, rows, fields){
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            })
         }
     })
 });
@@ -355,7 +362,7 @@ app.post('/dogs_has_users', function(req, res)
     let data = req.body;
 
     // Notify client if source was not selected
-    let source = parseInt(data.source);
+    let source = parse(data.source);
     // if (source == "NULL")
     // {
     //     popup.alert({
