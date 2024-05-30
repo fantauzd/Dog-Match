@@ -30,15 +30,6 @@ updateDogForm.addEventListener("submit", function (e) {
     let newIsActiveValue = newIsActive.value;
     let newShelterIDValue = newShelterID.value;
     let newBreedIDValue = newBreedID.value;
-    
-    // currently the database table for bsg_people does not allow updating values to NULL
-    // so we must abort if being bassed NULL for homeworld
-
-    //if (isNaN(homeworldValue)) 
-    //{
-        //return;
-    //}
-
 
     // Put our data we want to send in a javascript object
     let data = {
@@ -74,7 +65,7 @@ updateDogForm.addEventListener("submit", function (e) {
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
 
-})
+});
 
 
 function updateRow(data, dogID){

@@ -341,6 +341,58 @@ app.delete('/delete-shelter/', function(req, res, next) {
     })
 });
 
+app.put('/put-shelter', function(req, res, next){
+    let data = req.body;
+    
+    let shelter_id = parseInt(data.shelter_id);
+    if (isNaN(shelter_id)) {
+        res.sendStatus(400);
+        return;
+    }
+
+    let name = data.name;
+    if (!name) {
+        name = 'NULL';
+    }
+    
+    let email = data.email;
+    if (!email) {
+        email = 'NULL';
+    }
+
+    let street_address = data.street_address;
+    if (!street_address) {
+        street_address = 'NULL';
+    }
+
+    let city = data.city;
+    if (!city) {
+        city = 'NULL';
+    }
+
+    let postal_code = data.postal_code;
+    if (!postal_code) {
+        postal_code = 'NULL';
+    }
+
+    let state = data.state;
+    if (!state) {
+        state = 'NULL';
+    }
+
+    let updateShelterQuery = `UPDATE Shelters SET name = '${name}', email = '${email}', street_address = '${street_address}', city = '${city}', postal_code = '${postal_code}', state = '${state}' WHERE shelter_id = '${shelter_id}'`;
+    
+    // Run the query
+    db.pool.query(updateShelterQuery, function(error, rows, fields){
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    });
+});
 
 
 /*
