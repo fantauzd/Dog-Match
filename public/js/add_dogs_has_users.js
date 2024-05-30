@@ -89,13 +89,13 @@ addRowToTable = (data) => {
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deleteBreed(newRow.breed_id);
+        deleteDogs_has_users(newRow.dogs_has_users_id);
     };
 
     row.appendChild(deleteCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row
-    row.setAttribute('data-value', newRow.breed_id);
+    row.setAttribute('data-value', newRow.dogs_has_users_id);
     
     // Add the row to the table
     currentTable.appendChild(row);
