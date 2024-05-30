@@ -1,3 +1,4 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 {{!-- Create a table --}}
 <table id="dogs-table">
@@ -13,6 +14,7 @@
                 {{@key}}
             </th>
             {{/each}}
+            <th>delete</th>
         </tr>
     </thead>
 
@@ -31,10 +33,12 @@
             <td>{{this.is_active}}</td>
             <td>{{this.shelter_id}}</td>
             <td>{{this.breed_id}}</td>
+            <td><button onclick="deleteDog({{this.dog_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="./js/delete_dog.js"></script>
 
 {{!-- Form to add a record to the table  --}}
 <h2>Adding Dogs with AJAX</h2>
@@ -69,3 +73,45 @@
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_dog.js"></script>
+
+<h2>Updating A Dog Form</h2>
+<p>To update a specific dog select their name from the drop-down menu on the left</p>
+<form id="update-dog">
+
+    <label for="select-name">Name: </label>
+    <select name="select-name" id="select-name">
+        <option value="test">Select a Dog</option>
+        {{#each data}}
+        <option value="{{this.dog_id}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="update-name"> New Dog Name: </label>
+    <input type="text" name="update-name" id="update-name">
+    
+    <label for="update-birthdate">Birthdate: </label>
+    <input type="date" name="update-birthdate" id="update-birthdate">
+
+    <label for="update-training_level">Training Level: </label>
+    <input type="number" name="update-training_level" id="update-training_level" min="1" max="10">
+
+    <label for="update-is_family_friendly">Is Family Friendly: </label>
+    <input type="number" name="update-is_family_friendly" id="update-is_family_friendly" min="0" max="1">
+
+    <label for="update-shelter_arrival_date">Shelter Arrival Date: </label>
+    <input type="date" name="update-shelter_arrival_date" id="update-shelter_arrival_date">
+
+    <label for="update-is_active">Is Active: </label>
+    <input type="number" name="update-is_active" id="update-is_active" min="0" max="1">
+
+    <label for="update-shelter_id">Shelter ID: </label>
+    <input type="number" name="update-shelter_id" id="update-shelter_id" min="1" max="3">
+
+    <label for="update-breed_id">Breed ID: </label>
+    <input type="number" name="update-breed_id" id="update-breed_id" min="1" max="4">
+
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_dog.js"></script>
