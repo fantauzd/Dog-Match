@@ -30,6 +30,8 @@ app.get('/', function(req, res)
         res.render('index');
     });
 
+
+// Dogs
 app.get('/dogs', function(req, res)
     {  
         let getDogs = "SELECT * FROM Dogs;";               // Define our query
@@ -228,6 +230,118 @@ app.put('/put-dog', function(req,res,next){
             }
         })
     });
+
+// Shelters
+app.get('/shelters', function(req, res) {  
+    let getShelters = "SELECT * FROM Shelters;";               // Define our query
+
+    db.pool.query(getShelters, function(error, rows, fields) {    // Execute the query
+        if (error) {
+            console.log(error);
+            res.sendStatus(500);
+        } else {
+            res.render('shelters', {data: rows});              // Render the shelters.hbs file, and also send the renderer
+        }                                                      // an object where 'data' is equal to the 'rows' we received back from the query
+    });
+});
+
+app.post('/add-shelter', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Capture NULL values
+    let name = data.name;
+    if (!name) {
+        name = 'NULL';
+    }
+    
+    let email = data.email;
+    if (!email) {
+        email = 'NULL';
+    }
+
+    let street_address = data.street_address;
+    if (!street_address) {
+        street_address = 'NULL';
+    }
+
+    let city = data.city;
+    if (!city) {
+        city = 'NULL';
+    }
+
+    let postal_code = data.postal_code;
+    if (!postal_code) {
+        postal_code = 'NULL';
+    }
+
+    let state = data.state;
+    if (!state) {
+        state = 'NULL';
+    }
+
+    // Create the query and run it on the database
+    let insertShelters = `INSERT INTO Shelters (name, email, street_address, city, postal_code, state) VALUES('${name}', '${email}', '${street_address}', '${city}', '${postal_code}', '${state}')`;
+    db.pool.query(insertShelters, function(error, rows, fields) {
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on Shelters
+            let getAllShelters = `SELECT * FROM Shelters;`;
+            db.pool.query(getAllShelters, function(error, rows, fields) {
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {   
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+app.delete('/delete-shelter/', function(req, res, next) {
+    let data = req.body;
+    let shelterID = parseInt(data.id);
+    let deleteAdoptions = `DELETE FROM Adoptions WHERE shelter_id = ?`;
+    let deleteShelter = `DELETE FROM Shelters WHERE shelter_id = ?`;
+
+    db.pool.query(deleteAdoptions, [shelterID], function(error, rows, fields){
+        if (error) {
+
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error);
+        res.sendStatus(400);
+        }
+        
+        db.pool.query(deleteShelter, [shelterID], function(error, rows, fields) {
+            if (error) {
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+                res.sendStatus(204);
+            }
+        })
+    })
+});
+
+
 
 /*
     LISTENER
