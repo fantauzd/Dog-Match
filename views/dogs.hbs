@@ -45,7 +45,7 @@
 <p>To add a new dog, please enter their information below and click 'Submit'!</p>
 <form id="add-dog">
     <label for="input-name">Dog Name: </label>
-    <input type="text" name="input-name" id="input-name">
+    <input type="text" name="input-name" id="input-name" required>
     
     <label for="input-birthdate">Birthdate: </label>
     <input type="date" name="input-birthdate" id="input-birthdate">
@@ -63,7 +63,7 @@
     <input type="number" name="input-is_active" id="input-is_active" min="0" max="1">
 
     <label for="input-shelter_id">Shelter ID: </label>
-    <input type="number" name="input-shelter_id" id="input-shelter_id" min="1" max="3">
+    <input type="number" name="input-shelter_id" id="input-shelter_id" min="1" max="3" required>
 
     <label for="input-breed_id">Breed ID: </label>
     <input type="number" name="input-breed_id" id="input-breed_id" min="1" max="4">
