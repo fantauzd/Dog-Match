@@ -20,8 +20,20 @@ function deleteDog(dogID) {
       let table = document.getElementById("dogs-table");
       for (let i = 0, row; row = table.rows[i]; i++) {
          if (table.rows[i].getAttribute("data-value") == dogID) {
-              table.deleteRow(i);
-              break;
+            table.deleteRow(i);
+            deleteDropDownMenu(dogID);
+            break;
          }
       }
+  }
+
+  function deleteDropDownMenu(dogID){
+    let selectMenu = document.getElementById("select-name");
+    for (let i = 0; i < selectMenu.length; i++){
+      if (Number(selectMenu.options[i].value) === Number(dogID)){
+        selectMenu[i].remove();
+        break;
+      } 
+  
+    }
   }
