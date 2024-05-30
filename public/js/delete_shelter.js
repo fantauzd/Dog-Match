@@ -12,7 +12,7 @@ function deleteShelter(shelterID) {
         contentType: "application/json; charset=utf-8",
         success: function (result) {
             deleteRow(shelterID);
-            window.location.reload();
+            location.reload();
         }
     });
 }

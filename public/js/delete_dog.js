@@ -11,7 +11,7 @@ function deleteDog(dogID) {
       contentType: "application/json; charset=utf-8",
       success: function(result) {
         deleteRow(dogID);
-        window.location.reload();
+        location.reload();
       }
     });
   }
