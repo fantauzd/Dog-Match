@@ -1,5 +1,5 @@
 // Get the objects we need to modify
-let addAdoptionsForm = document.getElementById('add-adoption');
+let addAdoptionsForm = document.getElementById('add-adoption-form');
 
 // Modify the objects we need
 addAdoptionsForm.addEventListener("submit", function (e) {
@@ -7,12 +7,14 @@ addAdoptionsForm.addEventListener("submit", function (e) {
     // Prevent the form from submitting
     e.preventDefault();
 
-    inputs = ["input-date", "input-user_id", "input-dog_id, input-shelter_id, input-match_id"];
+    inputs = ["input-date", "input-user_id", "input-dog_id", "input-shelter_id", "input-match_id"];
     data = {};
     for (let x in inputs) {
         // Get form fields we need to get data from
         let val = document.getElementById(inputs[x]);
         // Get the values from the form fields
+        console.log(inputs[x]);
+        console.log(val);
         val = val.value;
         // Put our data we want to send in a javascript object
         x = inputs[x].split("-").pop();   // takes the string after the '-' character
@@ -43,7 +45,9 @@ addAdoptionsForm.addEventListener("submit", function (e) {
             // Handle special case for size
             document.getElementById("input-dog_id").value = "NULL";
             document.getElementById("input-user_id").value = "NULL";
+            document.getElementById("input-shelter_id").value = "NULL";
             document.getElementById("input-match_id").value = "NULL";
+            
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -57,8 +61,7 @@ addAdoptionsForm.addEventListener("submit", function (e) {
 })
 
 
-// Creates a single row from an Object representing a single record from 
-// breeds
+// Creates a single row from an Object representing a single record from adoptions
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
@@ -103,9 +106,9 @@ addRowToTable = (data) => {
 
     // Find drop down menu, create a new option, fill data in the option (full name, id),
     // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
-    let selectMenu = document.getElementById("select-name");
-    let option = document.createElement("option");
-    option.text = newRow.adoption_id;
-    option.value = newRow.adoption_id;
-    selectMenu.add(option);
+    // let selectMenu = document.getElementById("select-name");
+    // let option = document.createElement("option");
+    // option.text = newRow.adoption_id;
+    // option.value = newRow.adoption_id;
+    // selectMenu.add(option);
 }

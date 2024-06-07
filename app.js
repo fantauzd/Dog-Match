@@ -844,7 +844,7 @@ app.get('/adoptions', function(req, res)
 );
 
 
-app.post('/adoptions', function(req, res) 
+app.post('/add-adoption-form', function(req, res) 
 {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
@@ -863,23 +863,7 @@ app.post('/adoptions', function(req, res)
         }
         else
         {
-            // If there was no error, perform a SELECT * on Breeds
-            getAllBreeds = `SELECT * FROM Adoptions;`;
-            db.pool.query(getAllBreeds, function(error, rows, fields){
-
-                // If there was an error on the second query, send a 400
-                if (error) {
-                    
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else
-                {
-                    res.send(rows);
-                }
-            })
+            res.redirect('/');
         }
     })
 });

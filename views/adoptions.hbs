@@ -41,14 +41,14 @@
 </table>
 
 {{!-- Form to add a record to the table  --}}
-<h2>Adding Adoption with AJAX</h2>
+<h2>Adding Adoption with HTML Form</h2>
 <p>To add a new adoption, please enter their information below and click 'Submit'!</p>
-<form id="add-adoption">
+<form id="add-adoption-form" method="POST" action="/add-adoption-form">
     <label for="input-date">Date: </label>
     <input type="date" name="input-date" id="input-date" required>
     
     <label for="input-user_id">User: </label>
-    <select name="input-user_id" id="input-users_user_id">
+    <select name="input-user_id" id="input-user_id">
         <option value="NULL">Select a User</option>
         {{#each users}}
         <option value="{{this.user_id}}">{{this.username}}</option>
@@ -82,5 +82,5 @@
     <input type="submit">
 </form>
 
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="./js/add_adoption.js"></script>
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request
+<script src="./js/add_adoption.js"></script> --}}
