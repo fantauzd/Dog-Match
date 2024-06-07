@@ -177,12 +177,7 @@ app.post('/users', function(req, res){
     let data = req.body;
 
     // Create the query and run it on the database
-    insertUsers = `INSERT INTO USERS (username, phone, email, birthdate, home_type, street_address, city, postal_code,
-        state, activity_preference, shedding_preference, training_preference, size_preference, has_children,
-        has_dog, has_cat, is_active) VALUES ('${data.username}', '${data.phone}', '${data.email}', '${data.birthdate}', '${data.home_type}',
-        '${data.street_address}', '${data.city}', '${data.postal_code}', '${data.state}', '${data.activity_preference}',
-        '${data.shedding_preference}', '${data.training_preference}', '${data.size_preference}', '${data.has_children}',
-        '${data.has_dog}', '${data.has_cat}', '${data.is_active}');`;
+    insertUsers = `INSERT INTO Users (username, phone, email, birthdate, home_type, street_address, city, postal_code, state, activity_preference, shedding_preference, training_preference, size_preference, has_children, has_dog, has_cat, is_active) VALUES ('${data.username}', '${data.phone}', '${data.email}', '${data.birthdate}', '${data.home_type}', '${data.street_address}', '${data.city}', '${data.postal_code}', '${data.state}', '${data.activity_preference}', '${data.shedding_preference}', '${data.training_preference}', '${data.size_preference}', '${data.has_children}', '${data.has_dog}', '${data.has_cat}', '${data.is_active}');`;
 
     db.pool.query(insertUsers, function(error, rows, fields){
 
