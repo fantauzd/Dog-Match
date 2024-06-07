@@ -7,7 +7,7 @@ addAdoptionsForm.addEventListener("submit", function (e) {
     // Prevent the form from submitting
     e.preventDefault();
 
-    inputs = ["input-date", "input-user_id", "input-dog_id, input-match_id"];
+    inputs = ["input-date", "input-user_id", "input-dog_id, input-shelter_id, input-match_id"];
     data = {};
     for (let x in inputs) {
         // Get form fields we need to get data from
