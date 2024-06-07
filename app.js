@@ -841,7 +841,6 @@ app.get('/adoptions', function(req, res)
 
                             // Save the shelters
                             let shelters = rows;
-                            console.log(shelters);
 
                             return res.render('adoptions', {data: adoptions, users: users, dogs: dogs, matches: matches, shelters: shelters});
                         })
