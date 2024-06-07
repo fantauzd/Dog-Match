@@ -812,10 +812,11 @@ app.get('/adoptions', function(req, res)
         let getUsers = "SELECT user_id, username FROM Users ORDER BY username;";
         let getMatches = "SELECT Matches.match_id, Matches.user_id, Matches.dog_id, Users.username AS user_name, Dogs.name AS dog_name FROM Matches INNER JOIN Users ON Matches.user_id = Users.user_id INNER JOIN Dogs ON Matches.dog_id = Dogs.dog_id WHERE Matches.is_active = 1 ORDER BY Users.username;";
         let getDogs = "SELECT Dogs.dog_id, Dogs.name, Shelters.shelter_id, Shelters.name AS shelter_name FROM Dogs INNER JOIN Shelters ON Dogs.shelter_id = Shelters.shelter_id WHERE Dogs.is_active = 1 ORDER BY shelter_name;";
+        let getShelters = "SELECT Shelters.shelter_id, Shelters.name FROM Shelters"
 
         db.pool.query(getAdoptions, function(error, rows, fields){    // Execute the query
 
-            // Save the people
+            // Save the adoptions
             let adoptions = rows;
         
             // Run the second query
@@ -827,15 +828,22 @@ app.get('/adoptions', function(req, res)
                 // Run the third query
                 db.pool.query(getMatches , (error, rows, fields) => {
             
-                    // Save the dogs
+                    // Save the matches
                     let matches = rows;
                 
                     // Run the last query
                     db.pool.query(getDogs , (error, rows, fields) => {
-            
+
                         // Save the dogs
                         let dogs = rows;
-                        return res.render('adoptions', {data: adoptions, users: users, dogs: dogs, matches: matches});
+
+                        db.pool.query(getShelters , (error, rows, fields) => {
+
+                            // Save the shelters
+                            let shelters = rows;
+
+                            return res.render('adoptions', {data: adoptions, users: users, dogs: dogs, matches: matches, shelters: shelters});
+                        })
                     })
                 })
             })
@@ -848,22 +856,36 @@ app.post('/add-adoption-form', function(req, res)
 {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
+    console.log(data);
 
     // Create the query and run it on the database
-    insertAdoptions = `INSERT INTO Adoptions (date, dog_id, shelter_id, user_id, match_id) VALUES ('${data.date}', '${data.dog_id}', '${data.shelter_id}', '${data.user_id}', '${data.match_id}'); UPDATE Dogs SET is_active = 0 Where dog_id = '${data.dog_id}'; UPDATE Matches SET is_active = 0 WHERE dog_id = '${data.dog_id}';`;
+    insertAdoptions = `INSERT INTO Adoptions (date, dog_id, shelter_id, user_id, match_id) VALUES ('${data['input-date']}', '${data['input-dog_id']}', '${data['input-shelter_id']}', ${data['input-user_id']}, ${data['input-match_id']});`;
+    updateMatches = `UPDATE Matches SET is_active = 0 WHERE dog_id = '${data['input-dog_id']}';`;
+    updateDogs = `UPDATE Dogs SET is_active = 0 Where dog_id = '${data['input-dog_id']}';`;
 
     db.pool.query(insertAdoptions, function(error, rows, fields){
 
         // Check to see if there was an error
         if (error) {
-
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error)
             res.sendStatus(400);
-        }
-        else
-        {
-            res.redirect('/');
+        } else {
+            db.pool.query(updateMatches, function(error, rows, fields){
+                if (error) {
+                    console.log(error)
+                    res.sendStatus(400);
+                } else {
+                    db.pool.query(updateDogs, function(error, rows, fields){
+                        if (error) {
+                            console.log(error)
+                            res.sendStatus(400);
+                        } else {
+                            res.redirect('/adoptions');
+                        }
+                    })
+                }
+            })
         }
     })
 });
