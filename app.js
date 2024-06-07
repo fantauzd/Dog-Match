@@ -182,7 +182,7 @@ app.post('/users', function(req, res){
         has_dog, has_cat, is_active) VALUES ('${data.username}', '${data.phone}', '${data.email}', '${data.birthdate}', '${data.home_type}',
         '${data.street_address}', '${data.city}', '${data.postal_code}', '${data.state}', '${data.activity_preference}',
         '${data.shedding_preference}', '${data.training_preference}', '${data.size_preference}', '${data.has_children}',
-        '${data.has_dog}', '${data.has_cat}', '${data.is_active}')`;
+        '${data.has_dog}', '${data.has_cat}', '${data.is_active}');`;
 
     db.pool.query(insertUsers, function(error, rows, fields){
 

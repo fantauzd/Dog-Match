@@ -2,7 +2,7 @@
 let updateUserForm = document.getElementById('update-user');
 
 // Modify the objects we need
-updateBreedForm.addEventListener("submit", function (e) {
+updateUserForm.addEventListener("submit", function (e) {
    
     // Prevent the form from submitting
     e.preventDefault();
