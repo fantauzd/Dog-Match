@@ -198,7 +198,7 @@ SELECT Adoptions.adoption_id, Adoptions.dog_id, Dogs.name AS dog_name,
 -- the user will make one selection for both the dog_id and shelter_id by looking at the username and shelter name together
 -- since each dog has one shelter, this input will then be sent to the database as seperate
 -- user_id and match_id parameters in order to avoid selecting a dog with the same name from a different shelter just because 
---you did not check th dog id
+-- you did not check the dog id
 SELECT Dogs.dog_id, Dogs.name, Shelters.shelter_id, Shelters.name AS shelter_name
     FROM Dogs
     INNER JOIN Shelters ON Dogs.shelter_id = Shelters.shelter_id

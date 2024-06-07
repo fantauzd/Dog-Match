@@ -1,5 +1,6 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+
 {{!-- Create a table --}}
 <table id="adoptions-table">
 
@@ -33,13 +34,11 @@
             <td>{{this.match_id}}</td>
             <td>{{this.match_date}}</td>
             <td>{{this.adoption_date}}</td>
-            <td><button onclick="deleteBreed({{this.adoption_id}})">Delete</button></td>
+            <td><button onclick="deleteAdoption({{this.adoption_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
-
-<script src="./js/delete_adoption.js"></script>
 
 {{!-- Form to add a record to the table  --}}
 <h2>Adding Adoption with AJAX</h2>
@@ -48,18 +47,28 @@
     <label for="input-date">Breed Name: </label>
     <input type="date" name="input-date" id="input-date" required>
     
-    <label for="input-activity_level">Activity Level: </label>
-    <input type="number" name="input-activity_level" id="input-activity_level" min="1" max="10">
+    <label for="input-user_id">User: </label>
+    <select name="input-user_id" id="input-users_user_id" required>
+        <option value="NULL">Select a User</option>
+        {{#each users}}
+        <option value="{{this.user_id}}">{{this.username}}</option>
+        {{/each}}
+    </select>
 
-    <label for="input-shedding_level">Shedding Level: </label>
-    <input type="number" name="input-shedding_level" id="input-shedding_level" min="1" max="10">
+    <label for="input-dog_id">Dog: </label>
+    <select name="input-dog_id" id="input-dog_id" required>
+        <option value="NULL">Select a Dog</option>
+        {{#each dogs}}
+        <option value="{{this.dog_id}}">{{this.name}} - {{this.shelter_name}} - {{this.dog_id}}</option>
+        {{/each}}
+    </select>
 
-    <label for="input-size">Size: </label>
-    <select name="input-size" id="input-size">
-        <option value="NULL">Select</option>
-        <option value="Small">Small</option>
-        <option value="Medium">Medium</option>
-        <option value="Large">Large</option>
+    <label for="input-match_id">Dog: </label>
+    <select name="input-match_id" id="input-match_id" required>
+        <option value="NULL">Did the adoption come from a Match?</option>
+        {{#each matches}}
+        <option value="{{this.match_id}}">{{this.dog_name}} & {{this.user_name}}</option>
+        {{/each}}
     </select>
 
     <input type="submit">

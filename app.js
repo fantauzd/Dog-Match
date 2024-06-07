@@ -804,17 +804,45 @@ app.put('/put-shelter', function(req, res, next){
 
 // Adoptions
 
+
 app.get('/adoptions', function(req, res)
     {  
-        // get all breeds for the browse Breeds page, breeds.html
+        // Define our query
         let getAdoptions = "SELECT Adoptions.adoption_id, Adoptions.dog_id, Dogs.name AS dog_name, Adoptions.shelter_id, Shelters.name AS shelter_name, Adoptions.user_id, IFNULL(Users.username, 'Non-User') AS adopter, Adoptions.match_id, IFNULL(Matches.date, 'No Match') AS match_date, Adoptions.date AS adoption_date FROM Adoptions INNER JOIN Dogs ON Adoptions.dog_id = Dogs.dog_id INNER JOIN Shelters ON Adoptions.shelter_id = Shelters.shelter_id LEFT JOIN Users ON Adoptions.user_id = Users.user_id LEFT JOIN Matches ON Adoptions.match_id = Matches.match_id ORDER BY adoption_date DESC;";
+        let getUsers = "SELECT user_id, username FROM Users ORDER BY username;";
+        let getMatches = "SELECT Matches.match_id, Matches.user_id, Matches.dog_id, Dogs.name AS dog_name, Users.username AS user_name FROM Matches INNER JOIN Users ON Matches.user_id = Users.user_id WHERE Matches.is_active = 1 INNER JOIN Dogs ON Matches.dog_id = Dogs.dog_id WHERE Matches.is_active = 1 ORDER BY Users.username;";
+        let getDogs = "SELECT Dogs.dog_id, Dogs.name, Shelters.shelter_id, Shelters.name AS shelter_name FROM Dogs INNER JOIN Shelters ON Dogs.shelter_id = Shelters.shelter_id WHERE Dogs.is_active = 1 ORDER BY shelter_name;";
 
-        db.pool.query(getAdoptions, function(error, rows, fields){     // Execute the query
+        db.pool.query(getAdoptions, function(error, rows, fields){    // Execute the query
 
-            res.render('adoptions', {data: rows});                     // Render the breeds.hbs file, and also send the renderer
-        })                                                          // an object where 'data' is equal to the 'rows' we
+            // Save the people
+            let adoptions = rows;
+        
+            // Run the second query
+            db.pool.query(getUsers , (error, rows, fields) => {
+            
+                // Save the users
+                let users = rows;
+
+                // Run the third query
+                db.pool.query(getMatches , (error, rows, fields) => {
+            
+                    // Save the dogs
+                    let matches = rows;
+                
+                
+                    // Run the last query
+                    db.pool.query(getDogs , (error, rows, fields) => {
+            
+                        // Save the dogs
+                        let dogs = rows;
+                        return res.render('adoptions', {data: dogs_has_users, users: users, dogs: dogs, matches: matches});
+                    })
+                })
+            })
+        })
     }
-);                                                             // received back from the query
+);
 
 
 app.post('/adoptions', function(req, res) 
