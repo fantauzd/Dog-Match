@@ -802,6 +802,78 @@ app.put('/put-shelter', function(req, res, next){
 });
 
 
+// Adoptions
+
+app.get('/adoptions', function(req, res)
+    {  
+        // get all breeds for the browse Breeds page, breeds.html
+        let getAdoptions = "SELECT Adoptions.adoption_id, Adoptions.dog_id, Dogs.name AS dog_name, Adoptions.shelter_id, Shelters.name AS shelter_name, Adoptions.user_id, IFNULL(Users.username, 'Non-User') AS adopter, Adoptions.match_id, IFNULL(Matches.date, 'No Match') AS match_date, Adoptions.date AS adoption_date FROM Adoptions INNER JOIN Dogs ON Adoptions.dog_id = Dogs.dog_id INNER JOIN Shelters ON Adoptions.shelter_id = Shelters.shelter_id LEFT JOIN Users ON Adoptions.user_id = Users.user_id LEFT JOIN Matches ON Adoptions.match_id = Matches.match_id ORDER BY adoption_date DESC;";
+
+        db.pool.query(getAdoptions, function(error, rows, fields){     // Execute the query
+
+            res.render('adoptions', {data: rows});                     // Render the breeds.hbs file, and also send the renderer
+        })                                                          // an object where 'data' is equal to the 'rows' we
+    }
+);                                                             // received back from the query
+
+
+app.post('/adoptions', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Capture NULL values
+    let activity_level = parseInt(data.activity_level);
+    if (isNaN(activity_level))
+    {
+        activity_level = 'NULL'
+    }
+
+    let shedding_level = parseInt(data.shedding_level);
+    if (isNaN(shedding_level))
+    {
+        shedding_level = 'NULL'
+    }
+
+    // Create the query and run it on the database
+    insertBreeds = `INSERT INTO Breeds (name, activity_level, shedding_level, size) VALUES('${data.name}', '${activity_level}', '${shedding_level}', '${data.size}')`;
+    db.pool.query(insertBreeds, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on Breeds
+            getAllBreeds = `SELECT * FROM Breeds;`;
+            db.pool.query(getAllBreeds, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+
+
+
+
+
 /*
     LISTENER
 */
