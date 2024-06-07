@@ -215,6 +215,14 @@ SELECT Matches.match_id, Matches.user_id, Users.username
     WHERE Matches.is_active = 1
     ORDER BY Users.username;
 
+-- get all matches for dynamic match drop down
+SELECT Matches.match_id, Matches.user_id, Matches.dog_id, Users.username AS user_name, Dogs.name AS dog_name
+    FROM Matches
+    INNER JOIN Users ON Matches.user_id = Users.user_id
+    INNER JOIN Dogs ON Matches.dog_id = Dogs.dog_id
+    WHERE Matches.is_active = 1
+    ORDER BY Users.username;
+
 -- Add a new adoption, adoptions_new.html
 -- The dog has now been adopted so we set it to inactive
 -- Since the dog has been adopted, we also set its matches to inactive

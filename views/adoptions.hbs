@@ -63,9 +63,9 @@
         {{/each}}
     </select>
 
-    <label for="input-match_id">Dog: </label>
+    <label for="input-match_id">Match: </label>
     <select name="input-match_id" id="input-match_id" required>
-        <option value="NULL">Did the adoption come from a Match?</option>
+        <option value="NULL">Select a Match if applicable</option>
         {{#each matches}}
         <option value="{{this.match_id}}">{{this.dog_name}} & {{this.user_name}}</option>
         {{/each}}
