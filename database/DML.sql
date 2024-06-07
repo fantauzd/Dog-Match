@@ -246,6 +246,7 @@ UPDATE Matches
     SET is_active = 1
 WHERE dog_id = :dog_id_input;
 
+-- The update for adoptions is an OPTIONAL implementation ( we can rely on delete and reenter here)
 -- There are two distinct kinds of updates that must be identified and handled seperately
 -- Alternatively, we can disallow updates and use Delete and reenter instead
 

@@ -849,22 +849,10 @@ app.post('/adoptions', function(req, res)
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
-    // Capture NULL values
-    let activity_level = parseInt(data.activity_level);
-    if (isNaN(activity_level))
-    {
-        activity_level = 'NULL'
-    }
-
-    let shedding_level = parseInt(data.shedding_level);
-    if (isNaN(shedding_level))
-    {
-        shedding_level = 'NULL'
-    }
-
     // Create the query and run it on the database
-    insertBreeds = `INSERT INTO Breeds (name, activity_level, shedding_level, size) VALUES('${data.name}', '${activity_level}', '${shedding_level}', '${data.size}')`;
-    db.pool.query(insertBreeds, function(error, rows, fields){
+    insertAdoptions = `INSERT INTO Adoptions (date, dog_id, shelter_id, user_id, match_id) VALUES ('${data.date}', '${data.dog_id}', '${data.shelter_id}', '${data.user_id}', '${data.match_id}'); UPDATE Dogs SET is_active = 0 Where dog_id = '${data.dog_id}'; UPDATE Matches SET is_active = 0 WHERE dog_id = '${data.dog_id}';`;
+
+    db.pool.query(insertAdoptions, function(error, rows, fields){
 
         // Check to see if there was an error
         if (error) {
@@ -876,7 +864,7 @@ app.post('/adoptions', function(req, res)
         else
         {
             // If there was no error, perform a SELECT * on Breeds
-            getAllBreeds = `SELECT * FROM Breeds;`;
+            getAllBreeds = `SELECT * FROM Adoptions;`;
             db.pool.query(getAllBreeds, function(error, rows, fields){
 
                 // If there was an error on the second query, send a 400
