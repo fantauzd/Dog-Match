@@ -341,15 +341,13 @@ app.get('/dogs_has_users', function(req, res)
 );
             
 
-
-
 app.post('/dogs_has_users', function(req, res) 
 {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
     // Notify client if source was not selected
-    let source = data.source;
+    let source = data['input-source'];
     // if (source == "NULL")
     // {
     //     popup.alert({
@@ -358,7 +356,7 @@ app.post('/dogs_has_users', function(req, res)
     // }
 
     // Create the query and run it on the database
-    addDogs_has_users = `INSERT INTO Dogs_has_users (dogs_dog_id, users_user_id, source) VALUES ('${data.dogs_dog_id}', '${data.users_user_id}', '${source}')`;
+    addDogs_has_users = `INSERT INTO Dogs_has_users (dogs_dog_id, users_user_id, source) VALUES ('${data['input-dogs_dog_id']}', '${data['input-users_user_id']}', '${source}')`;
 
     db.pool.query(addDogs_has_users, function(error, rows, fields){
 
@@ -385,7 +383,7 @@ app.post('/dogs_has_users', function(req, res)
                 // If all went well, send the results of the query back.
                 else
                 {
-                    res.send(rows);
+                    res.redirect('/dogs_has_users');
                 }
             })
         }

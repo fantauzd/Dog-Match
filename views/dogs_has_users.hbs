@@ -38,9 +38,9 @@
 <script src="./js/delete_dogs_has_users.js"></script>
 
 {{!-- Form to add a record to the table  --}}
-<h2>Adding "likes" (dogs_has_users) with AJAX</h2>
+<h2>Adding "likes" (dogs_has_users) with an HTML form</h2>
 <p>To add a new "like", please enter their information below and click 'Submit'!</p>
-<form id="add-dogs_has_users">
+<form id="add-dogs_has_users" method="POST" action="/dogs_has_users">
     <label for="input-source">Source of "like": </label>
     <select name="input-source" id="input-source" required>
         <option value="NULL">Select</option>
@@ -64,9 +64,8 @@
         {{/each}}
     </select>
 
-
     <input type="submit">
 </form>
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="./js/add_dogs_has_users.js"></script>
+{{!-- <script src="./js/add_dogs_has_users.js"></script> --}}

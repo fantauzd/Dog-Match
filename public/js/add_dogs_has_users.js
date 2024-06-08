@@ -1,3 +1,8 @@
+// DECREMENTED
+
+// This js is currently decremented as AJAX is not being used.
+// When AJAX is used the new entry does not show joined fields so HTML form is being used to work around this issue
+
 // Get the objects we need to modify
 let addDogs_has_usersForm = document.getElementById('add-dogs_has_users');
 
