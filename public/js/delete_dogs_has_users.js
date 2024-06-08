@@ -3,7 +3,9 @@ function deleteDogs_has_users(dogs_has_usersID) {
     let data = {
         dogs_has_users_id: dogs_has_usersID
     };
-  
+    
+    console.log(data);
+
     $.ajax({
       url: link,
       type: 'DELETE',
@@ -15,24 +17,24 @@ function deleteDogs_has_users(dogs_has_usersID) {
     });
 }
   
-  function deleteRow(dogs_has_usersID){
-      let table = document.getElementById("dogs_has_users-table");
-      for (let i = 0, row; row = table.rows[i]; i++) {
-         if (table.rows[i].getAttribute("data-value") == dogs_has_usersID) {
-              table.deleteRow(i);
-              deleteDropDownMenu(dogs_has_usersID);
-              break;
-         }
-      }
-  }
-  
-  function deleteDropDownMenu(dogs_has_usersID){
-    let selectMenu = document.getElementById("select-name");
-    for (let i = 0; i < selectMenu.length; i++){
-      if (Number(selectMenu.options[i].value) === Number(dogs_has_usersID)){
-        selectMenu[i].remove();
-        break;
-      } 
-  
+function deleteRow(dogs_has_usersID){
+  let table = document.getElementById("dogs_has_users-table");
+  for (let i = 0, row; row = table.rows[i]; i++) {
+    if (table.rows[i].getAttribute("data-value") == dogs_has_usersID) {
+      table.deleteRow(i);
+      // deleteDropDownMenu(dogs_has_usersID);
+      break;
     }
   }
+}
+  
+  // function deleteDropDownMenu(dogs_has_usersID){
+  //   let selectMenu = document.getElementById("select-name");
+  //   for (let i = 0; i < selectMenu.length; i++){
+  //     if (Number(selectMenu.options[i].value) === Number(dogs_has_usersID)){
+  //       selectMenu[i].remove();
+  //       break;
+  //     } 
+  
+  //   }
+  // }

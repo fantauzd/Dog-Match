@@ -1,3 +1,5 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 {{!-- Create a table --}}
 <table id="dogs_has_users-table">
 
@@ -20,7 +22,7 @@
 
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value={{this.dogs_has_users_id}}>
             <td>{{this.dogs_has_users_id}}</td>
             <td>{{this.source}}</td>
             <td>{{this.dogs_dog_id}}</td>

@@ -349,7 +349,7 @@ app.post('/dogs_has_users', function(req, res)
     let data = req.body;
 
     // Notify client if source was not selected
-    let source = parse(data.source);
+    let source = data.source;
     // if (source == "NULL")
     // {
     //     popup.alert({
@@ -394,34 +394,19 @@ app.post('/dogs_has_users', function(req, res)
 
 app.delete('/dogs_has_users', function(req,res,next){
     let data = req.body;
-    let dogs_has_usersID = parseInt(data.dogs_has_users_id);
-    let deleteBsg_Cert_People = `DELETE FROM bsg_cert_people WHERE pid = ?`;
-    let deleteBsg_People= `DELETE FROM bsg_people WHERE id = ?`;
-  
-  
-          // Run the 1st query
-          db.pool.query(deleteBsg_Cert_People, [personID], function(error, rows, fields){
-              if (error) {
-  
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-              console.log(error);
-              res.sendStatus(400);
-              }
-  
-              else
-              {
-                  // Run the second query
-                  db.pool.query(deleteBsg_People, [personID], function(error, rows, fields) {
-  
-                      if (error) {
-                          console.log(error);
-                          res.sendStatus(400);
-                      } else {
-                          res.sendStatus(204);
-                      }
-                  })
-              }
-  })});
+    let likeID = parseInt(data.dogs_has_users_id);
+    let deleteLike = `DELETE from Dogs_has_users WHERE dogs_has_users_id = ?`;
+    // Run the 1st query
+    db.pool.query(deleteLike, [likeID], function(error, rows, fields){
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        }else{
+            res.sendStatus(204);
+        }
+    })
+});
 
 
   
