@@ -47,16 +47,6 @@ updateUserForm.addEventListener("submit", function (e) {
     let newCatValue = newCat.value;
     let newActiveValue = newActive.value;
 
-
-    // if ((updateIDValue == "test")) 
-    //     {
-    //         return;
-    //     }
-
-    // if (isNaN(newUsernameValue)) 
-    //     {
-    //         return;
-    //     }
     
     // Put our data we want to send in a javascript object
     let data = {
@@ -73,7 +63,7 @@ updateUserForm.addEventListener("submit", function (e) {
         activity_preference: newActivityValue,
         shedding_preference: newSheddingValue,
         training_preference: newTrainingValue,
-        size_preferenceL: newSizeValue,
+        size_preference: newSizeValue,
         has_children: newChildrenValue,
         has_dog: newDogValue,
         has_cat: newCatValue,

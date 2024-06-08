@@ -248,12 +248,6 @@ app.put('/users', function(req,res,next){
     
     let user_id = parseInt(data.user_id);
     
-    let home_type = parseInt(data.home_type);
-    if (isNaN(home_type))
-    {
-        home_type = 'NULL'
-    }
-
     let activity_preference = parseInt(data.activity_preference);
     if (isNaN(activity_preference))
     {
@@ -270,12 +264,6 @@ app.put('/users', function(req,res,next){
     if (isNaN(training_preference))
     {
         training_preference = 'NULL'
-    }
-
-    let size_preference = parseInt(data.size_preference);
-    if (isNaN(size_preference))
-    {
-        size_preference = 'NULL'
     }
 
     let has_children = parseInt(data.has_children);
@@ -296,12 +284,8 @@ app.put('/users', function(req,res,next){
         has_cat = 'NULL'
     }
     
-    let updateUserQuery = `UPDATE Users SET username = '${data.username}', phone = '${data.phone}', email = '${data.email}', 
-    birthdate = '${data.birthdate}', home_type = '${home_type}', street_address = '${data.street_address}', 
-    city = '${data.city}', postal_code = '${data.postal_code}', state = '${data.state}', 
-    activity_preference = '${activity_preference}', shedding_preference = '${shedding_preference}', 
-    training_preference = '${training_preference}', size_preference = '${size_preference}', has_children = '${has_children}', 
-    has_dog = '${has_dog}', has_cat = '${has_cat}' WHERE user_id = '${data.user_id}';`;
+    let updateUserQuery = `UPDATE Users SET username = '${data.username}', phone = '${data.phone}', email = '${data.email}', birthdate = '${data.birthdate}', home_type = '${data.home_type}', street_address = '${data.street_address}', city = '${data.city}', postal_code = '${data.postal_code}', state = '${data.state}', activity_preference = '${activity_preference}', shedding_preference = '${shedding_preference}', training_preference = '${training_preference}', size_preference = '${data.size_preference}', has_children = '${has_children}', has_dog = '${has_dog}', has_cat = '${has_cat}', is_active = '${data.is_active}' WHERE user_id = '${user_id}';`;
+    let getUsers = `SELECT * FROM Users WHERE user_id = ${user_id} ORDER BY is_active DESC, user_id;`;
 
     // Run the 1st query
     db.pool.query(updateUserQuery,  function(error, rows, fields){
@@ -310,7 +294,15 @@ app.put('/users', function(req,res,next){
             console.log(error);
             res.sendStatus(400);
         } else {
-             res.sendStatus(204);
+            // Run the 2nd Query
+            db.pool.query(getUsers,  function(error, rows, fields){
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            })
         }
     })
 });

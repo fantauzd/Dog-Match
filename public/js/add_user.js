@@ -95,7 +95,7 @@ addRowToTable = (data) => {
     // Add the delete button to the row
     let deleteCell = document.createElement("TD");
     deleteCell = document.createElement("button");
-    deleteCell.innerHTML = "Delete";
+    deleteCell.innerHTML = "Deactivate";
     deleteCell.onclick = function(){
         deleteUser(newRow.user_id);
     };
