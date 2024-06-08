@@ -6,6 +6,14 @@
 	shared css  
 ===============***================= */
 
+/*to hide text when there is an image replacement */
+span.holdertext {
+	display:none;
+}
+.clear,
+.clearme {
+	clear:both;
+}
 #container #toplinks span, #container #toplinks ul li {
     font-size: 12px;
 }
@@ -116,37 +124,37 @@
 ===============***================= */
 
 #navbar ul li#home-nav a{
-    background: url(/marketing/images/site/main-nav/alllinks.gif) -5px 0px;
+    background: url(/img/alllinks.gif) -5px 0px;
     width:60px;
 }
-#navbar ul li#logos-nav a{
-    background: url(/marketing/images/site/main-nav/alllinks.gif) 688px 0px;
-    width:65px;
+#navbar ul li#breeds-nav a{
+    background: url(/img/alllinks.gif) -60px 0px;
+    width:70px;
 }
-#navbar ul li#color-nav a{
-    background: url(/marketing/images/site/main-nav/alllinks.gif) 609px 0px;
-    width:65px;	
+#navbar ul li#shelters-nav a{
+    background: url(/img/alllinks.gif) -135px 0px;
+    width:80px;	
 }
-#navbar ul li#fonts-nav a{
-    background: url(/marketing/images/site/main-nav/alllinks.gif) 528px 0px;
-    width:60px;
+#navbar ul li#dogs-nav a{
+    background: url(/img/alllinks.gif) -227px 0px;
+    width:46px;
 }	
-#navbar ul li#photography-nav a{
-    background: url(/marketing/images/site/main-nav/alllinks.gif) 454px 0px;
-    width:150px;
-    width:140px;	
+#navbar ul li#users-nav a{
+    background: url(/img/alllinks.gif) -282px 0px;
+    width:52px;
+	
 }
-#navbar ul li#web-nav a{
-    background: url(/marketing/images/site/main-nav/alllinks.gif) 302px 0px;
-    width:45px;	
+#navbar ul li#matches-nav a{
+    background: url(/img/alllinks.gif) -346px 0px;
+    width:79px;	
 }
-#navbar ul li#socialmedia-nav a{
-    background: url(/marketing/images/site/main-nav/alllinks.gif) 244px 0px;
-    width:65px;	
+#navbar ul li#adoptions-nav a{
+    background: url(/img/alllinks.gif) -430px 0px;
+    width:92px;	
 }
-#navbar ul li#video-nav a{
-    background: url(/marketing/images/site/main-nav/alllinks.gif) 160px 0px;
-    width:56px;	
+#navbar ul li#likes-nav a{
+    background: url(/img/alllinks.gif) -529px 0px;
+    width:58px;	
 }	
 #navbar ul li#email-nav a{
     background: url(/marketing/images/site/main-nav/alllinks.gif) 89px 0px;
@@ -163,12 +171,12 @@ link hover states (pushed down 19px)
 ===============***================= */
 
 #navbar ul li#home-nav a:hover, #navbar ul li#home-nav a.on{
-    background: url(/marketing/images/site/main-nav/alllinks.gif) -5px 19px;
+    background: url(/img/alllinks.gif) -5px 19px;
     width:60px;
 }
-#navbar ul li#logos-nav a:hover, #navbar ul li#logos-nav a.on{
-    background: url(/marketing/images/site/main-nav/alllinks.gif) 688px 19px;
-    width:65px;
+#navbar ul li#breeds-nav a:hover, #navbar ul li#breeds-nav a.on{
+    background: url(/img/alllinks.gif) -60px 19px;
+    width:70px;
 }
 #navbar ul li#color-nav a:hover, #navbar ul li#color-nav a.on{
     background: url(/marketing/images/site/main-nav/alllinks.gif) 609px 19px;
