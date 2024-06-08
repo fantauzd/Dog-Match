@@ -213,11 +213,10 @@ app.post('/users', function(req, res){
 }); 
 
 
-app.delete('/users', function(req,res,next){
+app.put('/users-deactivate', function(req, res, next){
     let data = req.body;
-    let userID = parseInt(data.user_id);
-    let deactivateUser = `UPDATE Users SET is_active = 0 WHERE user_id = '${userID}';`;
-    let deactivateMatches = `UPDATE Matches SET is active = 0 WHERE user_id = '${userID}';`;
+    let deactivateUser = `UPDATE Users SET is_active = 0 WHERE user_id = ${data.id};`;
+    let deactivateMatches = `UPDATE Matches SET is_active = 0 WHERE user_id = ${data.id};`;
     
     
      // Run the 1st query
@@ -235,7 +234,8 @@ app.delete('/users', function(req,res,next){
                     console.log(error);
                     res.sendStatus(400);
                 } else {
-                    res.sendStatus(204);
+                    // still have bug that does not reload the page
+                    res.redirect('/users');
                 }
             })
         }
@@ -243,7 +243,7 @@ app.delete('/users', function(req,res,next){
 });
 
 
-app.put('/breeds', function(req,res,next){
+app.put('/users', function(req,res,next){
     let data = req.body;
     
     let user_id = parseInt(data.user_id);
