@@ -1,0 +1,206 @@
+
+.adjust{margin-left: -16px;}
+
+
+/*=============***=================
+	shared css  
+===============***================= */
+
+#container #toplinks span, #container #toplinks ul li {
+    font-size: 12px;
+}
+#toplinks ul li {
+    display: inline;
+}
+
+/*=============***=================
+	header area (logos and links)  
+===============***================= */
+#header {
+    clear: left;
+    margin: 0 auto;
+    width: 960px;
+}
+#header {
+	margin-bottom:10px;
+	margin-top: 35px; /* 35px matches rest of Web site */
+	position: relative;
+}
+#logo {
+	width:400px;
+	float:left;
+	height: 60px;
+	margin-left: 0;
+}
+#logo a img{
+	border: none;
+}
+#toplinks {
+    color: #888888;
+    float: right;
+    margin-top: 8px;
+    font-family: Arial,Verdana, sans-serif;
+    text-align: right;
+    text-transform: uppercase;
+    /* width: 475px; when ee launches */
+    width: 185px;
+}
+#toplinks span{
+	float:left; 
+	width: 30px;
+	padding-top: 3px;
+	margin-left: 5px;
+}
+#toplinks ul {
+	margin-left: 0;
+	padding-top: 3px;
+	float: left;
+	position: absolute;
+	right: 0;
+}
+#toplinks ul li {
+	display: inline;	
+}
+#toplinks ul li a{
+	border-left: 1px solid #888;
+}
+#toplinks ul li.firstlink a{
+	border-left: none;
+}
+#toplinks ul li a {
+        color: #90002A;	
+        display: block;
+        float: left;
+        padding: 0 9px 0 9px;
+}
+
+/*=============***=================
+	navbar division  
+===============***================= */
+#navbar{
+    clear: left;
+    margin: 0 auto;
+    width: 960px;
+}
+#navbar {
+	
+	margin-top: 2px;
+	padding-top: 2px;
+	
+}
+#navbar ul {
+    border-top:2px solid #c3c3c3;
+	padding:2px 0 0 0;
+	margin:0px 0 28px 0;
+	list-style-type:none;
+}
+#navbar ul li {
+	display:inline;
+	margin-top:10px;	
+}
+#navbar ul li a{	
+	padding:0px;
+	margin:0px;
+	display:inline-block;
+	height:20px;
+	width:80px;
+	margin-top:8px;
+	margin-right:37px;
+}
+
+#navbar ul li.last a{margin-right:0; margin-left:-4px;}
+
+
+/*=============***=================
+	link backgrounds
+===============***================= */
+
+#navbar ul li#home-nav a{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) -5px 0px;
+    width:60px;
+}
+#navbar ul li#logos-nav a{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 688px 0px;
+    width:65px;
+}
+#navbar ul li#color-nav a{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 609px 0px;
+    width:65px;	
+}
+#navbar ul li#fonts-nav a{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 528px 0px;
+    width:60px;
+}	
+#navbar ul li#photography-nav a{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 454px 0px;
+    width:150px;
+    width:140px;	
+}
+#navbar ul li#web-nav a{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 302px 0px;
+    width:45px;	
+}
+#navbar ul li#socialmedia-nav a{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 244px 0px;
+    width:65px;	
+}
+#navbar ul li#video-nav a{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 160px 0px;
+    width:56px;	
+}	
+#navbar ul li#email-nav a{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 89px 0px;
+    width:56px;	
+}	
+#navbar ul li#icons-nav a{
+    background: url(/marketing/images/site/main-nav/main-nav-icons-off.gif) 0 3px no-repeat;
+    width:70px;
+    width:62px;
+}
+
+/*=============***=================
+link hover states (pushed down 19px)
+===============***================= */
+
+#navbar ul li#home-nav a:hover, #navbar ul li#home-nav a.on{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) -5px 19px;
+    width:60px;
+}
+#navbar ul li#logos-nav a:hover, #navbar ul li#logos-nav a.on{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 688px 19px;
+    width:65px;
+}
+#navbar ul li#color-nav a:hover, #navbar ul li#color-nav a.on{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 609px 19px;
+    width:65px;
+}
+#navbar ul li#fonts-nav a:hover, #navbar ul li#fonts-nav a.on{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 528px 19px;
+    width:60px;	
+}
+#navbar ul li#photography-nav a:hover, #navbar ul li#photography-nav a.on{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 454px 19px;
+    width:140px;
+}
+#navbar ul li#web-nav a:hover, 	#navbar ul li#web-nav a.on{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 302px 19px;
+    width:45px;	
+}
+#navbar ul li#socialmedia-nav a:hover, #navbar ul li#socialmedia-nav a.on{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 244px 19px;
+    width:64px;	
+}
+#navbar ul li#video-nav a:hover, #navbar ul li#video-nav a.on{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 160px 19px;
+    width:56px;	
+}	
+#navbar ul li#email-nav a:hover, #navbar ul li#email-nav a.on{
+    background: url(/marketing/images/site/main-nav/alllinks.gif) 89px 19px;
+    width:56px;	
+}	
+#navbar ul li#icons-nav a:hover, #navbar ul li#icons-nav a.on{
+    background: url(/marketing/images/site/main-nav/main-nav-icons-on.gif) 0 2px no-repeat;
+    width:70px;
+    width:62px;	
+}
+
