@@ -1,0 +1,75 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+{{!-- Create a table --}}
+<table class ="styled-table" id="matches-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+        <th>Delete</th>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr data-value={{this.match_id}}>
+            <td>{{this.match_id}}</td>
+            <td>{{this.date}}</td>
+            <td>{{this.user_id}}</td>
+            <td>{{this.username}}</td>
+            <td>{{this.dog_id}}</td>
+            <td>{{this.dog_name}}</td>
+            <td>{{this.is_active}}</td>
+            <td><button onclick="deleteMatch({{this.match_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_match.js"></script>
+
+{{!-- Form to add a record to the table  --}}
+<h2>Adding a Match with an HTML form</h2>
+<p>To add a new "match", please enter their information below and click 'Submit'!</p>
+<form id="add-match" method="POST" action="/matches">
+    <label for="input-date">Date:</label>
+    <input type="date" id="input-date" name="input-date" required>
+    
+    <label for="input-user_id">User: </label>
+    <select name="input-user_id" id="input-user_id" required>
+        <option value="NULL">Select a User</option>
+        {{#each users}}
+        <option value="{{this.user_id}}">{{this.username}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-dog_id">Dog: </label>
+    <select name="input-dog_id" id="input-dog_id" required>
+        <option value="NULL">Select a Dog</option>
+        {{#each dogs}}
+        <option value="{{this.dog_id}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-is_active">Is this match active? </label>
+    <select name="input-is_active" id="input-is_active">
+        <option value="NULL">Select</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+    </select>
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+{{!-- <script src="./js/add_dogs_has_users.js"></script> --}}

@@ -8,7 +8,7 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT = 9861;
+PORT = 9666;
 // Popups for client
 //var popup = require('popups');                  // now we can use popup.alert to inform client of issues
 
@@ -418,18 +418,58 @@ app.delete('/dogs_has_users', function(req,res,next){
 
   
 // Dogs
-app.get('/dogs', function(req, res)
-    {  
-        let getDogs = "SELECT * FROM Dogs;";               // Define our query
+app.get('/dogs', function(req, res) {
+    let getDogs = `
+        SELECT 
+            Dogs.dog_id, Dogs.name, Dogs.birthdate, Dogs.training_level, Dogs.is_family_friendly,
+            Dogs.shelter_arrival_date, Dogs.is_active, Dogs.shelter_id, Shelters.name AS shelter_name, 
+            Dogs.breed_id, Breeds.name AS breed_name
+        FROM 
+            Dogs 
+        LEFT JOIN 
+            Shelters ON Dogs.shelter_id = Shelters.shelter_id
+        LEFT JOIN 
+            Breeds ON Dogs.breed_id = Breeds.breed_id;
+    `;
 
-        db.pool.query(getDogs, function(error, rows, fields){    // Execute the query
-            rows.map(row => {
-                row.birthdate = row.birthdate.toISOString().slice(0,10)
-                row.shelter_arrival_date = row.shelter_arrival_date.toISOString().slice(0,10)
-            })
-            res.render('dogs', {data: rows});                  // Render the index.hbs file, and also send the renderer
-        })                                                      // an object where 'data' is equal to the 'rows' we
-    });                                                         // received back from the query
+    let getShelters = "SELECT shelter_id, name FROM Shelters";
+    let getBreeds = "SELECT breed_id, name FROM Breeds";
+
+    db.pool.query(getDogs, function(error, dogRows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+            return;
+        }
+
+        dogRows.forEach(row => {
+            row.birthdate = row.birthdate.toISOString().slice(0, 10);
+            row.shelter_arrival_date = row.shelter_arrival_date.toISOString().slice(0, 10);
+        });
+
+        db.pool.query(getShelters, function(error, shelterRows, fields) {
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+                return;
+            }
+
+            db.pool.query(getBreeds, function(error, breedRows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                    return;
+                }
+                console.log({ dogs: dogRows, shelters: shelterRows, breeds: breedRows});
+                res.render('dogs', { 
+                    dogs: dogRows, 
+                    shelters: shelterRows, 
+                    breeds: breedRows 
+                });
+            });
+        });
+    });
+});
 
 app.post('/add-dog', function(req, res) 
 {
@@ -472,6 +512,8 @@ app.post('/add-dog', function(req, res)
     {
         breed_id = 'NULL'
     }
+
+
 
     // Create the query and run it on the database
     insertDogs = `INSERT INTO Dogs (name, birthdate, training_level, is_family_friendly, shelter_arrival_date, is_active, shelter_id, breed_id) VALUES('${data.name}', '${data.birthdate}', '${training_level}', '${is_family_friendly}', '${shelter_arrival_date}', '${is_active}', '${shelter_id}', '${breed_id}')`;
@@ -695,6 +737,7 @@ app.post('/add-shelter', function(req, res)
                 else
                 {   
                     res.send(rows);
+                    location.reload();
                 }
             })
         }
@@ -878,6 +921,112 @@ app.post('/add-adoption-form', function(req, res)
     })
 });
 
+// Delete adoption
+app.delete('/delete-adoption', function(req, res) {
+    let data = req.body;
+    let adoptionID = parseInt(data.id);
+
+    // Query to delete the adoption record
+    let deleteAdoption = `DELETE FROM Adoptions WHERE adoption_id = ?`;
+
+    db.pool.query(deleteAdoption, [adoptionID], function(error, rows, fields){
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        }else{
+            res.sendStatus(204);
+        }
+    })
+});
+
+// Matches
+app.get('/matches', function(req, res)
+    {  
+        // Define our query
+        let getMatches = "SELECT Matches.match_id, Matches.date, Matches.user_id, Users.username, Matches.dog_id, Dogs.name AS dog_name FROM Matches INNER JOIN Users ON Matches.user_id = Users.user_id INNER JOIN Dogs ON Matches.dog_id = Dogs.dog_id ORDER BY Matches.match_id;";
+        let getUsers = "SELECT user_id, username FROM Users ORDER BY username;";
+        let getDogs = "SELECT Dogs.dog_id, Dogs.name, Shelters.name AS shelter_name FROM Dogs INNER JOIN Shelters ON Dogs.shelter_id = Shelters.shelter_id ORDER BY Dogs.name, shelter_name;";
+
+        db.pool.query(getMatches, function(error, rows, fields){    // Execute the query
+
+            // Save the people
+            let matches = rows;
+        
+            // Run the second query
+            db.pool.query(getUsers , (error, rows, fields) => {
+            
+                // Save the users
+                let users = rows;
+
+                // Run the third query
+                 db.pool.query(getDogs , (error, rows, fields) => {
+            
+                    // Save the dogs
+                    let dogs = rows;
+                    return res.render('matches', {data: matches, users: users, dogs: dogs});
+                })
+            })
+        })
+    }
+);
+
+app.post('/matches', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+
+    // Create the query and run it on the database
+    addMatches = `INSERT INTO Matches (date, user_id, dog_id, is_active) VALUES ('${data['input-date']}', '${data['input-user_id']}', '${data['input-dog_id']}', '${data['input-is_active']}')`;
+
+    db.pool.query(addMatches, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on bsg_people
+            query2 = `SELECT * FROM Matches;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.redirect('/matches');
+                }
+            })
+        }
+    })
+});
+
+app.delete('/matches', function(req,res,next){
+    let data = req.body;
+    let matchID = parseInt(data.match_id);
+    let deleteMatch = `DELETE from Matches WHERE match_id = ?`;
+    // Run the 1st query
+    db.pool.query(deleteMatch, [matchID], function(error, rows, fields){
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        }else{
+            res.sendStatus(204);
+        }
+    })
+});
 
 
 
