@@ -34,6 +34,8 @@ updateShelterForm.addEventListener("submit", function (e) {
         postal_code: newPostalCodeValue,
         state: newStateValue
     }
+    console.log('data');
+    console.log(data);
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -43,20 +45,26 @@ updateShelterForm.addEventListener("submit", function (e) {
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
+
             // Add the new data to the table
             updateRow(xhttp.response, updateIDValue);
+
         } else if (xhttp.readyState == 4 && xhttp.status != 200) {
+
             console.log("There was an error with the input.");
         }
     }
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-    location.reload();
-});
+})
 
 function updateRow(data, shelterID) {
+    console.log('update data');
+    console.log(data);
     let parsedData = JSON.parse(data);
+    console.log('parsedData');
+    console.log(parsedData);
 
     let table = document.getElementById("shelters-table");
 
@@ -81,6 +89,7 @@ function updateRow(data, shelterID) {
 
             td = updateRowIndex.getElementsByTagName("td")[6];
             td.innerHTML = parsedData[0].state;
+
         }
     }
 }

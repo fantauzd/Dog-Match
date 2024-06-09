@@ -167,7 +167,7 @@ app.get('/users', function(req, res){
 
     db.pool.query(getUsers, function(error, rows, fields){     // Execute the query
 
-    res.render('users', {data: rows});                     // Render the breeds.hbs file, and also send the renderer
+        res.render('users', {data: rows});                     // Render the breeds.hbs file, and also send the renderer
     })                                                          // an object where 'data' is equal to the 'rows' we
 });                                                             // received back from the query
 
@@ -217,6 +217,7 @@ app.put('/users-deactivate', function(req, res, next){
     let data = req.body;
     let deactivateUser = `UPDATE Users SET is_active = 0 WHERE user_id = ${data.id};`;
     let deactivateMatches = `UPDATE Matches SET is_active = 0 WHERE user_id = ${data.id};`;
+    let selectUser = "SELECT * FROM Users ORDER BY is_active DESC, user_id;";
     
     
      // Run the 1st query
@@ -235,7 +236,16 @@ app.put('/users-deactivate', function(req, res, next){
                     res.sendStatus(400);
                 } else {
                     // still have bug that does not reload the page
-                    res.redirect('/users');
+                    db.pool.query(selectUser, function(error, rows, fields) {
+    
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else {
+                            res.send(rows);
+                            pageRef = PageReference('/')
+                        }     
+                    })
                 }
             })
         }
@@ -721,52 +731,61 @@ app.delete('/delete-shelter/', function(req, res, next) {
 app.put('/put-shelter', function(req, res, next){
     let data = req.body;
     
-    let shelter_id = parseInt(data.shelter_id);
-    if (isNaN(shelter_id)) {
-        res.sendStatus(400);
-        return;
-    }
+    // let shelter_id = parseInt(data.shelter_id);
+    // if (isNaN(shelter_id)) {
+    //     res.sendStatus(400);
+    //     return;
+    // }
 
-    let name = data.name;
-    if (!name) {
-        name = 'NULL';
-    }
+    // let name = data.name;
+    // if (!name) {
+    //     name = 'NULL';
+    // }
     
-    let email = data.email;
-    if (!email) {
-        email = 'NULL';
-    }
+    // let email = data.email;
+    // if (!email) {
+    //     email = 'NULL';
+    // }
 
-    let street_address = data.street_address;
-    if (!street_address) {
-        street_address = 'NULL';
-    }
+    // let street_address = data.street_address;
+    // if (!street_address) {
+    //     street_address = 'NULL';
+    // }
 
-    let city = data.city;
-    if (!city) {
-        city = 'NULL';
-    }
+    // let city = data.city;
+    // if (!city) {
+    //     city = 'NULL';
+    // }
 
-    let postal_code = data.postal_code;
-    if (!postal_code) {
-        postal_code = 'NULL';
-    }
+    // let postal_code = data.postal_code;
+    // if (!postal_code) {
+    //     postal_code = 'NULL';
+    // }
 
-    let state = data.state;
-    if (!state) {
-        state = 'NULL';
-    }
+    // let state = data.state;
+    // if (!state) {
+    //     state = 'NULL';
+    // }
 
-    let updateShelterQuery = `UPDATE Shelters SET name = '${name}', email = '${email}', street_address = '${street_address}', city = '${city}', postal_code = '${postal_code}', state = '${state}' WHERE shelter_id = '${shelter_id}'`;
-    
-    // Run the query
+    let updateShelterQuery = `UPDATE Shelters SET name = '${data.name}', email = '${data.email}', street_address = '${data.street_address}', city = '${data.city}', postal_code = '${data.postal_code}', state = '${data.state}' WHERE shelter_id = '${data.shelter_id}'`;
+    let getShelters = `SELECT * FROM Shelters WHERE shelter_id = '${data.shelter_id}';`;
+
+    // Run the 1st query
     db.pool.query(updateShelterQuery, function(error, rows, fields){
         if (error) {
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
         } else {
-            res.sendStatus(204);
+            // if no error, we run second query to get data to update the table on the front-end
+            db.pool.query(getShelters,  function(error, rows, fields){
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            })
         }
     });
 });

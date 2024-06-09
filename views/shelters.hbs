@@ -24,7 +24,7 @@
         </thead>
         <tbody>
             {{#each data}}
-            <tr>
+            <tr data-value="{{this.shelter_id}}">
                 <td>{{this.shelter_id}}</td>
                 <td>{{this.name}}</td>
                 <td>{{this.email}}</td>
@@ -75,7 +75,7 @@
             <option value="{{this.shelter_id}}">{{this.name}}</option>
             {{/each}}
         </select><br>
-        <label for="update-name">Name:</label>
+        <label for="update-name">New Name:</label>
         <input type="text" id="update-name" name="name"><br>
         <label for="update-email">Email:</label>
         <input type="text" id="update-email" name="email"><br>

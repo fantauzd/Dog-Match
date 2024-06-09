@@ -68,6 +68,8 @@ updateBreedForm.addEventListener("submit", function (e) {
 
 function updateRow(data, breedID){
     let parsedData = JSON.parse(data);
+    console.log('parsedData');
+    console.log(parsedData);
     
     let table = document.getElementById("breeds-table");
 
