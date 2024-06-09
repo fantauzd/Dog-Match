@@ -726,13 +726,13 @@ app.post('/add-shelter', function(req, res)
     })
 });
 
-app.delete('/delete-shelter/', function(req, res, next) {
+app.put('/deactivate-shelter', function(req, res, next) {
     let data = req.body;
     let shelterID = parseInt(data.id);
-    let deleteAdoptions = `DELETE FROM Adoptions WHERE shelter_id = ?`;
-    let deleteShelter = `DELETE FROM Shelters WHERE shelter_id = ?`;
+    let deactivateDogs = `UPDATE Dogs SET is_active = 0 WHERE shelter_id = ?`;
+    let deactivateMatches = `UPDATE Matches INNER JOIN Dogs ON Matches.dog_id = Dogs.dog_id SET Matches.is_active = 0 Where Dogs.shelter_id = ?`;
 
-    db.pool.query(deleteAdoptions, [shelterID], function(error, rows, fields){
+    db.pool.query(deactivateDogs, [shelterID], function(error, rows, fields){
         if (error) {
 
         // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -740,7 +740,33 @@ app.delete('/delete-shelter/', function(req, res, next) {
         res.sendStatus(400);
         }
         
-        db.pool.query(deleteShelter, [shelterID], function(error, rows, fields) {
+        db.pool.query(deactivateMatches, [shelterID], function(error, rows, fields) {
+            if (error) {
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+                res.sendStatus(204);
+            }
+        })
+    })
+});
+
+app.put('/reactivate-shelter', function(req, res, next) {
+    let data = req.body;
+    let shelterID = parseInt(data.id);
+    let reactivateDogs = `UPDATE Dogs SET is_active = 1 WHERE shelter_id = ?`;
+    let reactivateMatches = `UPDATE Matches INNER JOIN Dogs ON Matches.dog_id = Dogs.dog_id SET Matches.is_active = 1 Where Dogs.shelter_id = ?`;
+
+    db.pool.query(reactivateDogs, [shelterID], function(error, rows, fields){
+        if (error) {
+
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error);
+        res.sendStatus(400);
+        }
+        
+        db.pool.query(reactivateMatches, [shelterID], function(error, rows, fields) {
             if (error) {
                 // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
                 console.log(error);

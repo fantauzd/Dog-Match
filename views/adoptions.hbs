@@ -1,6 +1,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-
+<h1>Adoptions</h1>
+<p>Use this page to add and delete adoptions. Deleting an adoption will reactive the associated dog and match.</p>
 {{!-- Create a table --}}
 <table class="styled-table" id="adoptions-table">
 
@@ -45,7 +46,7 @@
 
 {{!-- Form to add a record to the table  --}}
 <h2>Adding Adoption with HTML Form</h2>
-<p>To add a new adoption, please enter their information below and click 'Submit'!</p>
+<p>To add a new adoption, please enter their information below and click 'Submit'! <br> Adding an adoption will deactivate the associated dog and match (if applicable).</p>
 <form id="add-adoption-form" method="POST" action="/add-adoption-form">
     <label for="input-date">Date: </label>
     <input type="date" name="input-date" id="input-date" required>

@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <h1>Shelters</h1>
+    <p1>Use this page to add, update, or deactivate a shelter. <br> Deactivating a shelter deactivates all associated dogs and any matches that those dogs were in. <br>Reactivating a shelter activates all associated dogs and any matches that those dogs were in. <br>Active changes will not be visible on this page</p1>
 
     <table class="styled-table" id="shelters-table">
         <thead>
@@ -19,7 +20,8 @@
                     {{@key}}
                 </th>
                 {{/each}}
-                <th>Delete</th>
+                <th>Deactivate All Dogs</th>
+                <th>Activate All Dogs</th>
             </tr>
         </thead>
         <tbody>
@@ -32,13 +34,15 @@
                 <td>{{this.city}}</td>
                 <td>{{this.postal_code}}</td>
                 <td>{{this.state}}</td>
-                <td><button onclick="deleteShelter({{this.shelter_id}})">Delete</button></td>
+                <td><button onclick="deleteShelter({{this.shelter_id}})">Deactivate</button></td>
+                <td><button onclick="activateShelter({{this.shelter_id}})">Reactivate</button></td>
             </tr>
             {{/each}}
         </tbody>
     </table>
 
     <script src="./js/delete_shelter.js"></script>
+    <script src="./js/reactivate_shelter.js"></script>
 
     <h2>Add Shelter with AJAX</h2>
     <p>To add a new Shelter please enter their information below and click submit</p>
