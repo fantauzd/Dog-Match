@@ -243,7 +243,6 @@ app.put('/users-deactivate', function(req, res, next){
                             res.sendStatus(400);
                         } else {
                             res.send(rows);
-                            pageRef = PageReference('/')
                         }     
                     })
                 }

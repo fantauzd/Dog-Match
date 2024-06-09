@@ -10,30 +10,26 @@ function deleteUser(userID) {
       type: 'PUT',
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
-      // success: function(result) {
-      //   deleteRow(userID);
-      // }
+      success: function(result) {
+        deactivateRow(userID);
+      }
     });
 }
-  
-// function deleteRow(userID){
-//   let table = document.getElementById("users-table");
-//   for (let i = 0, row; row = table.rows[i]; i++) {
-//     if (table.rows[i].getAttribute("data-value") == userID) {
-//       table.deleteRow(i);
-//       deleteDropDownMenu(userID);
-//       break;
-//     }
-//   }
-// }
-  
-//   function deleteDropDownMenu(userID){
-//     let selectMenu = document.getElementById("select-username");
-//     for (let i = 0; i < selectMenu.length; i++){
-//       if (Number(selectMenu.options[i].value) === Number(userID)){
-//         selectMenu[i].remove();
-//         break;
-//       } 
-  
-//     }
-// }
+
+function deactivateRow(userID) {
+  console.log('update data');
+  console.log(userID);
+
+
+  let table = document.getElementById("users-table");
+
+  for (let i = 0, row; row = table.rows[i]; i++) {
+      if (table.rows[i].getAttribute("data-value") == userID) {
+          let updateRowIndex = table.getElementsByTagName("tr")[i];
+
+          let td = updateRowIndex.getElementsByTagName("td")[17];
+          td.innerHTML = 0;
+
+      }
+  }
+}
