@@ -925,9 +925,13 @@ app.post('/add-adoption-form', function(req, res)
 app.delete('/delete-adoption', function(req, res) {
     let data = req.body;
     let adoptionID = parseInt(data.id);
+    let dogID = parseInt(data.dog_id)
 
     // Query to delete the adoption record
     let deleteAdoption = `DELETE FROM Adoptions WHERE adoption_id = ?`;
+    updateMatches = `UPDATE Matches SET is_active = 1 WHERE dog_id = ?`;
+    updateDogs = `UPDATE Dogs SET is_active = 1 Where dog_id = ?`;
+
 
     db.pool.query(deleteAdoption, [adoptionID], function(error, rows, fields){
         if (error) {
@@ -935,7 +939,23 @@ app.delete('/delete-adoption', function(req, res) {
             console.log(error);
             res.sendStatus(400);
         }else{
-            res.sendStatus(204);
+            db.pool.query(updateDogs, [dogID], function(error, rows, fields){
+                if (error) {
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }else{
+                    db.pool.query(updateMatches, [dogID], function(error, rows, fields){
+                        if (error) {
+                            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                            console.log(error);
+                            res.sendStatus(400);
+                        }else{
+                            res.sendStatus(204);
+                        }
+                    })
+                }
+            })
         }
     })
 });
@@ -944,7 +964,7 @@ app.delete('/delete-adoption', function(req, res) {
 app.get('/matches', function(req, res)
     {  
         // Define our query
-        let getMatches = "SELECT Matches.match_id, Matches.date, Matches.user_id, Users.username, Matches.dog_id, Dogs.name AS dog_name FROM Matches INNER JOIN Users ON Matches.user_id = Users.user_id INNER JOIN Dogs ON Matches.dog_id = Dogs.dog_id ORDER BY Matches.match_id;";
+        let getMatches = "SELECT Matches.match_id, Matches.date, Matches.user_id, Users.username, Matches.dog_id, Dogs.name AS dog_name, Matches.is_active FROM Matches INNER JOIN Users ON Matches.user_id = Users.user_id INNER JOIN Dogs ON Matches.dog_id = Dogs.dog_id ORDER BY Matches.match_id;";
         let getUsers = "SELECT user_id, username FROM Users ORDER BY username;";
         let getDogs = "SELECT Dogs.dog_id, Dogs.name, Shelters.name AS shelter_name FROM Dogs INNER JOIN Shelters ON Dogs.shelter_id = Shelters.shelter_id ORDER BY Dogs.name, shelter_name;";
 

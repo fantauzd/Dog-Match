@@ -1,7 +1,8 @@
-function deleteAdoption(adoptionID) {
+function deleteAdoption(adoptionID, dogID) {
     let link = '/delete-adoption/';
     let data = {
-      id: adoptionID
+      id: adoptionID,
+      dog_id: dogID
     };
   
     $.ajax({
@@ -11,7 +12,7 @@ function deleteAdoption(adoptionID) {
       contentType: "application/json; charset=utf-8",
       success: function(result) {
         deleteRow(adoptionID);
-        location.reload();
+        // location.reload();
       }
     });
   }
