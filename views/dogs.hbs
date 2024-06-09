@@ -15,12 +15,12 @@
                 <th>Shelter Name</th>
                 <th>Breed ID</th>
                 <th>Breed Name</th>
-                <th>Delete</th>
+                <th>Deactivate</th>
             </tr>
         </thead>
         <tbody>
             {{#each dogs}}
-            <tr>
+            <tr data-value={{this.dog_id}}>
                 <td>{{this.dog_id}}</td>
                 <td>{{this.name}}</td>
                 <td>{{this.birthdate}}</td>
@@ -32,7 +32,7 @@
                 <td>{{this.shelter_name}}</td>
                 <td>{{this.breed_id}}</td>
                 <td>{{this.breed_name}}</td>
-                <td><button onclick="deleteDog({{this.dog_id}})">Delete</button></td>
+                <td><button onclick="deleteDog({{this.dog_id}})">Deactivate</button></td>
             </tr>
             {{/each}}
         </tbody>

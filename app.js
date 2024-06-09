@@ -549,54 +549,36 @@ app.post('/add-dog', function(req, res)
     })
 });
 
-app.delete('/delete-dog/', function(req,res,next){
+app.put('/dogs-deactivate', function(req,res,next){
     let data = req.body;
     let dogID = parseInt(data.id);
-    let deleteDogs_has_users = `DELETE FROM Dogs_has_users WHERE dogs_dog_id = ?`;
-    let deleteAdoptions = `DELETE FROM Adoptions WHERE dog_id = ?`;
-    let deleteMatches = `DELETE FROM Matches WHERE dog_id = ?`;
-    let deleteDogs= `DELETE FROM Dogs WHERE dog_id = ?`;
+    let deactivateMatches = `UPDATE Matches SET is_active = 0 WHERE dog_id = ?`;
+    let deactivateDogs= `UPDATE Dogs SET is_active = 0 WHERE dog_id = ?`;
     
     
-    db.pool.query(deleteDogs_has_users, [dogID], function(error, rows, fields){
+    db.pool.query(deactivateDogs, [dogID], function(error, rows, fields){
         if (error) {
-
-        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-        console.log(error);
-        res.sendStatus(400);
-        }
-
-        db.pool.query(deleteAdoptions, [dogID], function(error, rows, fields){
-            if (error) {
 
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
-            }
 
-            db.pool.query(deleteMatches, [dogID], function(error, rows, fields){
+        } else {
+            db.pool.query(deactivateMatches, [dogID], function(error, rows, fields){
                 if (error) {
-    
-                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                console.log(error);
-                res.sendStatus(400);
-                }
         
-                else
-                {
-                    db.pool.query(deleteDogs, [dogID], function(error, rows, fields) {
-    
-                        if (error) {
-                            console.log(error);
-                            res.sendStatus(400);
-                        } else {
-                            res.sendStatus(204);
-                        }
-                    })
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+
+                } else{
+                    res.sendStatus(204);
                 }
-            })    
-        }) 
-    })});
+            })
+        }
+    })
+});
+
 
 app.put('/put-dog', function(req,res,next){
     let data = req.body;
@@ -1032,12 +1014,12 @@ app.post('/matches', function(req, res)
     })
 });
 
-app.delete('/matches', function(req,res,next){
+app.put('/matches', function(req,res,next){
     let data = req.body;
     let matchID = parseInt(data.match_id);
-    let deleteMatch = `DELETE from Matches WHERE match_id = ?`;
+    let deactivateMatch = `UPDATE Matches SET is_active = 0 WHERE match_id = ?`;
     // Run the 1st query
-    db.pool.query(deleteMatch, [matchID], function(error, rows, fields){
+    db.pool.query(deactivateMatch, [matchID], function(error, rows, fields){
         if (error) {
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
