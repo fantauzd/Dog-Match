@@ -33,8 +33,6 @@ addBreedForm.addEventListener("submit", function (e) {
             
             // Add the new data to the table
             addRowToTable(xhttp.response);
-            console.log('xhttp.response');
-            console.log(xhttp.response);
 
             for (let i in inputs) {
                 // Clear the input fields for another transaction
