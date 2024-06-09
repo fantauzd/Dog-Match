@@ -53,7 +53,7 @@
         {{#each users}}
         <option value="{{this.user_id}}">{{this.username}}</option>
         {{/each}}
-    </select>
+    </select><div></div>
 
     <label for="input-dog_id">Dog: </label>
     <select name="input-dog_id" id="input-dog_id" required>
@@ -61,7 +61,7 @@
         {{#each dogs}}
         <option value="{{this.dog_id}}">{{this.name}} - {{this.shelter_name}} - {{this.dog_id}}</option>
         {{/each}}
-    </select>
+    </select><div></div>
 
     <label for="input-shelter_id"> Please Confirm Shelter: </label>
     <select name="input-shelter_id" id="input-shelter_id" required>
@@ -69,7 +69,7 @@
         {{#each shelters}}
         <option value="{{this.shelter_id}}">{{this.name}}</option>
         {{/each}}
-    </select>
+    </select><div></div>
 
     <label for="input-match_id">Match: </label>
     <select name="input-match_id" id="input-match_id">
@@ -77,7 +77,7 @@
         {{#each matches}}
         <option value="{{this.match_id}}">{{this.dog_name}} & {{this.user_name}}</option>
         {{/each}}
-    </select>
+    </select><div></div>
 
     <input type="submit">
 </form>

@@ -46,7 +46,7 @@
         <option value="NULL">Select</option>
         <option value="User">User</option>
         <option value="Dog">Dog</option>
-    </select>
+    </select><div></div>
     
     <label for="input-users_user_id">User: </label>
     <select name="input-users_user_id" id="input-users_user_id" required>
@@ -54,7 +54,7 @@
         {{#each users}}
         <option value="{{this.user_id}}">{{this.username}}</option>
         {{/each}}
-    </select>
+    </select><div></div>
 
     <label for="input-dogs_dog_id">Dog: </label>
     <select name="input-dogs_dog_id" id="input-dogs_dog_id" required>
@@ -62,7 +62,7 @@
         {{#each dogs}}
         <option value="{{this.dog_id}}">{{this.name}} - {{this.shelter_name}}</option>
         {{/each}}
-    </select>
+    </select><div></div>
 
     <input type="submit">
 </form>
