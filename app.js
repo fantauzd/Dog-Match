@@ -737,7 +737,7 @@ app.post('/add-shelter', function(req, res)
                 else
                 {   
                     res.send(rows);
-                    location.reload();
+                    // location.reload();
                 }
             })
         }

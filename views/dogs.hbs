@@ -1,7 +1,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 {{!-- Create a table --}}
-<table id="dogs-table">
+<table class="styled-table" id="dogs-table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -59,8 +59,7 @@
     <label for="input-shelter_arrival_date">Shelter Arrival Date: </label>
     <input type="date" name="input-shelter_arrival_date" id="input-shelter_arrival_date"><br>
 
-    <label for="input-is_active">Is Active: </label>
-    <input type="number" name="input-is_active" id="input-is_active" min="0" max="1"><br>
+    <input type="hidden" name="input-is_active" id="input-is_active" value="1" />
 
     <label for="input-shelter_id">Shelter: </label>
     <select name="input-shelter_id" id="input-shelter_id" required>
@@ -72,7 +71,7 @@
 
     <label for="input-breed_id">Breed: </label>
     <select name="input-breed_id" id="input-breed_id" required>
-        <option value="NULL">Select a Shelter</option>
+        <option value="NULL">Select a Breed</option>
         {{#each breeds}}
         <option value="{{this.breed_id}}">{{this.name}}</option>
         {{/each}}
@@ -111,8 +110,7 @@
     <label for="update-shelter_arrival_date">Shelter Arrival Date: </label>
     <input type="date" name="update-shelter_arrival_date" id="update-shelter_arrival_date"><br>
 
-    <label for="update-is_active">Is Active: </label>
-    <input type="number" name="update-is_active" id="update-is_active" min="0" max="1"><br>
+    <input type="hidden" name="update-is_active" id="update-is_active" value="1" />
 
     <label for="update-shelter_id">Shelter: </label>
     <select name="update-shelter_id" id="update-shelter_id" required>
