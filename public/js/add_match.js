@@ -1,6 +1,7 @@
 // add_match.js
 // DECREMENTED
 
+// This module is adapted from the CS340 starter code with significant changes for enhanced functionality. 
 // This js is currently decremented as AJAX is not being used.
 // When AJAX is used the new entry does not show joined fields so HTML form is being used to work around this issue
 

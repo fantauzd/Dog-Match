@@ -1,3 +1,5 @@
+// This module is adapted from the CS340 starter code with significant changes for enhanced functionality. 
+
 function deleteBreed(breedID) {
   let link = '/breeds';
   let data = {

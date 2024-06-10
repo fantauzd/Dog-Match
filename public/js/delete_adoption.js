@@ -1,3 +1,5 @@
+// This module is adapted from the CS340 starter code with significant changes for enhanced functionality. 
+
 function deleteAdoption(adoptionID, dogID) {
     let link = '/delete-adoption/';
     let data = {

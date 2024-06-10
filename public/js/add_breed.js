@@ -1,3 +1,5 @@
+// This module is adapted from the CS340 starter code with significant changes for enhanced functionality. 
+
 // Get the objects we need to modify
 let addBreedForm = document.getElementById('add-breed');
 

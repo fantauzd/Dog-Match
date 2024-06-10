@@ -1,3 +1,5 @@
+// This module is adapted from the CS340 starter code with significant changes for enhanced functionality. 
+
 function deleteDogs_has_users(dogs_has_usersID) {
     let link = '/dogs_has_users';
     let data = {
