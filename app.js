@@ -423,7 +423,7 @@ app.get('/dogs', function(req, res) {
         SELECT 
             Dogs.dog_id, Dogs.name, Dogs.birthdate, Dogs.training_level, Dogs.is_family_friendly,
             Dogs.shelter_arrival_date, Dogs.is_active, Dogs.shelter_id, Shelters.name AS shelter_name, 
-            Dogs.breed_id, Breeds.name AS breed_name
+            Dogs.breed_id, IFNULL(Breeds.name, 'Mutt') AS breed_name
         FROM 
             Dogs 
         LEFT JOIN 
