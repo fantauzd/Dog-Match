@@ -123,10 +123,10 @@ ENGINE = InnoDB;
 
 INSERT INTO Users (username, phone, email, birthdate, home_type, street_address, city, postal_code, state, activity_preference, shedding_preference, training_preference, size_preference, has_children, has_dog, has_cat, is_active)
 VALUES
-	('pinkpanther', '2085558953', 'pinkpanther@gmail.com', '1996-11-05', 'House', '562 Franny Way', 'Boise', '52314', 'Idaho', 4, 1, 5, 'Small', 1 , 0, 1, 1),
-	('jwar1989', '2085554598', 'jwar1989@hotmail.com', '1996-11-13', 'Apartment', '16 Zimba Circle', 'Boise', '52112', 'Idaho', 3, 2, 1, 'Medium', 0 , 0, 0, 1),
-	('cooldad78', '2035556732', 'cooldad78@outlook.com', '1996-01-05', 'Duplex', '524 Hawk Lane', 'Nampa', '25345', 'Idaho', 3, 4, 5, 'Large', 0 , 1, 0, 1),
-	('petlover', '3173585012', 'petlover777@gmail.com', '1996-10-05', 'House', '5214 Jebba Way', 'Boise', '52344', 'Idaho', 5, 1, 5, 'Medium', 1 , 1, 0, 1);
+	('pinkpanther', '2085558953', 'pinkpanther@gmail.com', '1996-11-05', 'House', '562 Franny Way', 'Boise', '52314', 'ID', 4, 1, 5, 'Small', 1 , 0, 1, 1),
+	('jwar1989', '2085554598', 'jwar1989@hotmail.com', '1996-11-13', 'Apartment', '16 Zimba Circle', 'Boise', '52112', 'ID', 3, 2, 1, 'Medium', 0 , 0, 0, 1),
+	('cooldad78', '2035556732', 'cooldad78@outlook.com', '1996-01-05', 'Duplex', '524 Hawk Lane', 'Nampa', '25345', 'ID', 3, 4, 5, 'Large', 0 , 1, 0, 1),
+	('petlover', '3173585012', 'petlover777@gmail.com', '1996-10-05', 'House', '5214 Jebba Way', 'Boise', '52344', 'ID', 5, 1, 5, 'Medium', 1 , 1, 0, 1);
 
 -- -----------------------------------------------------
 -- Table `matches`
