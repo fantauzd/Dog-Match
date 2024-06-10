@@ -15,7 +15,9 @@ addDogForm.addEventListener("submit", function (e) {
     let inputShelterArrivalDate = document.getElementById("input-shelter_arrival_date");
     let inputIsActive = document.getElementById("input-is_active");
     let inputShelterID = document.getElementById("input-shelter_id");
+    let inputShelterName = document.getElementById("input-shelter_name");
     let inputBreedID = document.getElementById("input-breed_id");
+    let inputBreedName = document.getElementById("input-bree_name");
 
     // Get the values from the form fields
     let nameValue = inputName.value;
@@ -25,7 +27,9 @@ addDogForm.addEventListener("submit", function (e) {
     let shelterArrivalDateValue = inputShelterArrivalDate.value;
     let isActiveValue = inputIsActive.value;
     let shelterIDValue = inputShelterID.value;
+    let shelterNameValue = inputShelterName.value;
     let breedIDValue = inputBreedID.value;
+    let breedNameValue = inputBreedName.value;
 
     // Put our data we want to send in a javascript object
     let data = {
@@ -36,7 +40,9 @@ addDogForm.addEventListener("submit", function (e) {
         shelter_arrival_date: shelterArrivalDateValue,
         is_active: isActiveValue,
         shelter_id: shelterIDValue,
-        breed_id: breedIDValue
+        shelter_name: shelterNameValue,
+        breed_id: breedIDValue,
+        breed_name: breedNameValue
     }
     
     // Setup our AJAX request
@@ -59,7 +65,9 @@ addDogForm.addEventListener("submit", function (e) {
             inputShelterArrivalDate.value = '';
             inputIsActive.value = '';
             inputShelterID.value = '';
+            inputShelterName.value = '';
             inputBreedID.value = '';
+            inputBreedName.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -96,7 +104,9 @@ addRowToTable = (data) => {
     let shelterArrivalDateCell = document.createElement("TD");
     let isActiveCell = document.createElement("TD");
     let shelterIDCell = document.createElement("TD");
+    let shelterNameCell = document.createElement("TD");
     let breedIDCell = document.createElement("TD");
+    let breedNameCell = document.createElement("TD");
     let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
@@ -108,7 +118,9 @@ addRowToTable = (data) => {
     shelterArrivalDateCell.innerText = newRow.shelter_arrival_date;
     isActiveCell.innerText = newRow.is_active;
     shelterIDCell.innerText = newRow.shelter_id;
+    shelterNameCell.innerText = newRow.shelter_name;
     breedIDCell.innerText = newRow.breed_id;
+    breedNameCell.innerText = newRow.breed_name;
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
@@ -126,7 +138,9 @@ addRowToTable = (data) => {
     row.appendChild(shelterArrivalDateCell);
     row.appendChild(isActiveCell);
     row.appendChild(shelterIDCell);
+    row.appendChild(shelterNameCell);
     row.appendChild(breedIDCell);
+    row.appendChild(breedNameCell);
     row.appendChild(deleteCell);
 
     row.setAttribute('data-value', newRow.id);

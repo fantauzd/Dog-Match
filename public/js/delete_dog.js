@@ -1,39 +1,35 @@
-function deleteDog(dogID) {
-    let link = '/delete-dog/';
-    let data = {
-      id: dogID
-    };
-  
-    $.ajax({
-      url: link,
-      type: 'DELETE',
-      data: JSON.stringify(data),
-      contentType: "application/json; charset=utf-8",
-      success: function(result) {
-        deleteRow(dogID);
-        location.reload();
-      }
-    });
-  }
-  
-  function deleteRow(dogID){
-      let table = document.getElementById("dogs-table");
-      for (let i = 0, row; row = table.rows[i]; i++) {
-         if (table.rows[i].getAttribute("data-value") == dogID) {
-            table.deleteRow(i);
-            deleteDropDownMenu(dogID);
-            break;
-         }
-      }
-  }
+// This is actually used for an update request that deactivates the user
 
-  function deleteDropDownMenu(dogID){
-    let selectMenu = document.getElementById("select-name");
-    for (let i = 0; i < selectMenu.length; i++){
-      if (Number(selectMenu.options[i].value) === Number(dogID)){
-        selectMenu[i].remove();
-        break;
-      } 
-  
+function deleteDog(dogID) {
+  let link = '/dogs-deactivate';
+  let data = {id: dogID};
+  console.log(data);
+
+  $.ajax({
+    url: link,
+    type: 'PUT',
+    data: JSON.stringify(data),
+    contentType: "application/json; charset=utf-8",
+    success: function(result) {
+      deactivateRow(dogID);
     }
-  }
+  });
+}
+
+function deactivateRow(dogID) {
+console.log('update data');
+console.log(dogID);
+
+
+let table = document.getElementById("dogs-table");
+
+for (let i = 0, row; row = table.rows[i]; i++) {
+    if (table.rows[i].getAttribute("data-value") == dogID) {
+        let updateRowIndex = table.getElementsByTagName("tr")[i];
+
+        let td = updateRowIndex.getElementsByTagName("td")[6];
+        td.innerHTML = 0;
+
+    }
+}
+}

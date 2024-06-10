@@ -1,42 +1,44 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+<h1>Dogs</h1>
+<p1>Use this page to add, update, and deactivate dogs. <br>Deactivating a dog will also deactivate any matches it is in.</p1>
 {{!-- Create a table --}}
 <table class="styled-table" id="dogs-table">
-
-    {{!-- Header section --}}
-    <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Birthdate</th>
+                <th>Training Level</th>
+                <th>Family Friendly</th>
+                <th>Shelter Arrival Date</th>
+                <th>Active</th>
+                <th>Shelter ID</th>
+                <th>Shelter Name</th>
+                <th>Breed ID</th>
+                <th>Breed Name</th>
+                <th>Deactivate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each dogs}}
+            <tr data-value={{this.dog_id}}>
+                <td>{{this.dog_id}}</td>
+                <td>{{this.name}}</td>
+                <td>{{this.birthdate}}</td>
+                <td>{{this.training_level}}</td>
+                <td>{{this.is_family_friendly}}</td>
+                <td>{{this.shelter_arrival_date}}</td>
+                <td>{{this.is_active}}</td>
+                <td>{{this.shelter_id}}</td>
+                <td>{{this.shelter_name}}</td>
+                <td>{{this.breed_id}}</td>
+                <td>{{this.breed_name}}</td>
+                <td><button onclick="deleteDog({{this.dog_id}})">Deactivate</button></td>
+            </tr>
             {{/each}}
-            <th>Delete</th>
-        </tr>
-    </thead>
-
-    {{!-- Body section --}}
-    <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
-        <tr>
-            <td>{{this.dog_id}}</td>
-            <td>{{this.name}}</td>
-            <td>{{this.birthdate}}</td>
-            <td>{{this.training_level}}</td>
-            <td>{{this.is_family_friendly}}</td>
-            <td>{{this.shelter_arrival_date}}</td>
-            <td>{{this.is_active}}</td>
-            <td>{{this.shelter_id}}</td>
-            <td>{{this.breed_id}}</td>
-            <td><button onclick="deleteDog({{this.dog_id}})">Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
+        </tbody>
+    </table>
 </table>
 <script src="./js/delete_dog.js"></script>
 
@@ -59,14 +61,23 @@
     <label for="input-shelter_arrival_date">Shelter Arrival Date: </label>
     <input type="date" name="input-shelter_arrival_date" id="input-shelter_arrival_date"><br>
 
-    <label for="input-is_active">Is Active: </label>
-    <input type="number" name="input-is_active" id="input-is_active" min="0" max="1"><br>
+    <input type="hidden" name="input-is_active" id="input-is_active" value="1" />
 
-    <label for="input-shelter_id">Shelter ID: </label>
-    <input type="number" name="input-shelter_id" id="input-shelter_id" min="1" max="3" required><br>
+    <label for="input-shelter_id">Shelter: </label>
+    <select name="input-shelter_id" id="input-shelter_id" required>
+        <option value="NULL">Select a Shelter</option>
+        {{#each shelters}}
+        <option value="{{this.shelter_id}}">{{this.name}}</option>
+        {{/each}}
+    </select><br>
 
-    <label for="input-breed_id">Breed ID: </label>
-    <input type="number" name="input-breed_id" id="input-breed_id" min="1" max="4"><br>
+    <label for="input-breed_id">Breed: </label>
+    <select name="input-breed_id" id="input-breed_id" required>
+        <option value="NULL">Select a Breed</option>
+        {{#each breeds}}
+        <option value="{{this.breed_id}}">{{this.name}}</option>
+        {{/each}}
+    </select><br>
 
     <input type="submit">
 </form>
@@ -81,7 +92,7 @@
     <label for="select-name">Name: </label>
     <select name="select-name" id="select-name">
         <option value="test">Select a Dog</option>
-        {{#each data}}
+        {{#each names}}
         <option value="{{this.dog_id}}">{{this.name}}</option>
         {{/each}}
     </select><br>
@@ -101,14 +112,23 @@
     <label for="update-shelter_arrival_date">Shelter Arrival Date: </label>
     <input type="date" name="update-shelter_arrival_date" id="update-shelter_arrival_date"><br>
 
-    <label for="update-is_active">Is Active: </label>
-    <input type="number" name="update-is_active" id="update-is_active" min="0" max="1"><br>
+    <input type="hidden" name="update-is_active" id="update-is_active" value="1" />
 
-    <label for="update-shelter_id">Shelter ID: </label>
-    <input type="number" name="update-shelter_id" id="update-shelter_id" min="1" max="3" required><br>
+    <label for="update-shelter_id">Shelter: </label>
+    <select name="update-shelter_id" id="update-shelter_id" required>
+        <option value="NULL">Select a Shelter</option>
+        {{#each shelters}}
+        <option value="{{this.shelter_id}}">{{this.name}}</option>
+        {{/each}}
+    </select><br>
 
-    <label for="update-breed_id">Breed ID: </label>
-    <input type="number" name="update-breed_id" id="update-breed_id" min="1" max="4"><br>
+    <label for="update-breed_id">Breed: </label>
+    <select name="update-breed_id" id="update-breed_id" required>
+        <option value="NULL">Select a Breed</option>
+        {{#each breeds}}
+        <option value="{{this.breed_id}}">{{this.name}}</option>
+        {{/each}}
+    </select><br>
 
     <input type="submit">
 

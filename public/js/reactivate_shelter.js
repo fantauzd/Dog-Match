@@ -1,7 +1,5 @@
-// This is actually used for an update request that deactivates the shelter
-
-function deleteShelter(ID) {
-    let link = '/deactivate-shelter';
+function activateShelter(ID) {
+    let link = '/reactivate-shelter';
     let data = {id: ID};
     console.log(data);
   
