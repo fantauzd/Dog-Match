@@ -8,7 +8,7 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT = 9666;
+PORT = 9861;
 // Popups for client
 //var popup = require('popups');                  // now we can use popup.alert to inform client of issues
 
@@ -418,6 +418,7 @@ app.delete('/dogs_has_users', function(req,res,next){
 
   
 // Dogs
+// Dogs
 app.get('/dogs', function(req, res) {
     let getDogs = `
         SELECT 
@@ -441,11 +442,6 @@ app.get('/dogs', function(req, res) {
             res.sendStatus(400);
             return;
         }
-
-        dogRows.forEach(row => {
-            row.birthdate = row.birthdate.toISOString().slice(0, 10);
-            row.shelter_arrival_date = row.shelter_arrival_date.toISOString().slice(0, 10);
-        });
 
         db.pool.query(getShelters, function(error, shelterRows, fields) {
             if (error) {
@@ -471,7 +467,7 @@ app.get('/dogs', function(req, res) {
     });
 });
 
-app.post('/add-dog', function(req, res) 
+/*app.post('/add-dog', function(req, res) 
 {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
@@ -545,6 +541,45 @@ app.post('/add-dog', function(req, res)
                     res.send(rows);
                 }
             })
+        }
+    })
+}); */
+
+app.post('/add-dog-form', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+    console.log(data);
+
+    // Create the query and run it on the database
+    insertDogs = `INSERT INTO Dogs (name, birthdate, training_level, is_family_friendly, shelter_arrival_date, is_active, shelter_id, breed_id) VALUES('${data['input-name']}', '${data['input-birthdate']}', '${data['input-training_level']}', '${data['input-is_family_friendly']}', '${data['input-shelter_arrival_date']}', '${data['input-is_active']}', '${data['input-shelter_id']}','${data['input-breed_id']}');`
+    //updateMatches = `UPDATE Matches SET is_active = 0 WHERE dog_id = '${data['input-dog_id']}';`;
+   // updateDogs = `UPDATE Dogs SET is_active = 0 Where dog_id = '${data['input-dog_id']}';`;
+
+    db.pool.query(insertDogs, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        } else {
+            res.redirect('/dogs');
+            /*db.pool.query(updateMatches, function(error, rows, fields){
+                if (error) {
+                    console.log(error)
+                    res.sendStatus(400);
+                } else {
+                    db.pool.query(updateDogs, function(error, rows, fields){
+                        if (error) {
+                            console.log(error)
+                            res.sendStatus(400);
+                        } else {
+                            res.redirect('/adoptions');
+                        }
+                    })
+                }
+            })*/
         }
     })
 });
@@ -646,18 +681,28 @@ app.put('/put-dog', function(req,res,next){
     }
     
     let updateDogQuery = `UPDATE Dogs SET name = '${data.name}', birthdate = '${birthdate}', training_level = '${training_level}', is_family_friendly = '${data.is_family_friendly}', shelter_arrival_date = '${data.shelter_arrival_date}', is_active = '${data.is_active}', shelter_id = '${data.shelter_id}', breed_id = '${data.breed_id}' WHERE dog_id = '${dog_id}'`;
-    
+    let getDogs = `SELECT * FROM Dogs WHERE shelter_id = '${data.shelter_id}';`;
+
         // Run the 1st query
-        db.pool.query(updateDogQuery,  function(error, rows, fields){
-            if (error) {
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error);
-            res.sendStatus(400);
-            } else {
-                res.sendStatus(204);
-            }
-        })
+    db.pool.query(updateDogQuery,  function(error, rows, fields){
+        if (error) {
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error);
+        res.sendStatus(400);
+        } else {
+            db.pool.query(getDogs,  function(error, rows, fields){
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            })
+        }   
     });
+});
+
+
 
 // Shelters
 app.get('/shelters', function(req, res) {  
