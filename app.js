@@ -442,11 +442,6 @@ app.get('/dogs', function(req, res) {
             return;
         }
 
-        dogRows.forEach(row => {
-            row.birthdate = row.birthdate.toISOString().slice(0, 10);
-            row.shelter_arrival_date = row.shelter_arrival_date.toISOString().slice(0, 10);
-        });
-
         db.pool.query(getShelters, function(error, shelterRows, fields) {
             if (error) {
                 console.log(error);
@@ -558,7 +553,7 @@ app.put('/put-dog', function(req,res,next){
     }
     
     let updateDogQuery = `UPDATE Dogs SET name = '${data.name}', birthdate = '${birthdate}', training_level = '${training_level}', is_family_friendly = '${data.is_family_friendly}', shelter_arrival_date = '${data.shelter_arrival_date}', is_active = '${data.is_active}', shelter_id = '${data.shelter_id}', breed_id = '${data.breed_id}' WHERE dog_id = '${dog_id}'`;
-    let getDogs = `SELECT * FROM Dogs WHERE shelter_id = '${data.shelter_id}';`;
+    let getDogs = `SELECT Dogs.dog_id, Dogs.name, Dogs.birthdate, Dogs.training_level, Dogs.is_family_friendly, Dogs.shelter_arrival_date, Dogs.is_active, Dogs.shelter_id, Shelters.name AS shelter_name, Dogs.breed_id, IFNULL(Breeds.name, 'Mutt') AS breed_name FROM Dogs LEFT JOIN Shelters ON Dogs.shelter_id = Shelters.shelter_id LEFT JOIN  Breeds ON Dogs.breed_id = Breeds.breed_id WHERE Dogs.dog_id = '${dog_id}';`;
 
         // Run the 1st query
     db.pool.query(updateDogQuery,  function(error, rows, fields){
