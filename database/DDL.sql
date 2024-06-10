@@ -3,7 +3,7 @@
 -- Project Group 85
 
 -- for cli reference:
---      mysql -u [database_user_name] -h classmysql.engr.oregonstate.edu -p
+--      mysql -u cs340_fantauzd -h classmysql.engr.oregonstate.edu -p
 
 
 
