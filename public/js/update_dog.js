@@ -1,4 +1,3 @@
-
 // Get the objects we need to modify
 let updateDogForm = document.getElementById('update-dog');
 
@@ -64,14 +63,15 @@ updateDogForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-    location.reload();
 
 });
 
 
 function updateRow(data, dogID){
     let parsedData = JSON.parse(data);
-    
+    console.log('parsed below!');
+    console.log(parsedData);
+
     let table = document.getElementById("dogs-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
@@ -112,7 +112,15 @@ function updateRow(data, dogID){
 
             // Get td of name value and reassign
             td = updateRowIndex.getElementsByTagName("td")[8];
+            td.innerHTML = parsedData[0].shelter_name;
+
+            // Get td of name value and reassign
+            td = updateRowIndex.getElementsByTagName("td")[9];
             td.innerHTML = parsedData[0].breed_id;
+
+            // Get td of name value and reassign
+            td = updateRowIndex.getElementsByTagName("td")[10];
+            td.innerHTML = parsedData[0].breed_name;
        }
     }
 }

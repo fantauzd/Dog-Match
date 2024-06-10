@@ -423,7 +423,7 @@ app.get('/dogs', function(req, res) {
         SELECT 
             Dogs.dog_id, Dogs.name, Dogs.birthdate, Dogs.training_level, Dogs.is_family_friendly,
             Dogs.shelter_arrival_date, Dogs.is_active, Dogs.shelter_id, Shelters.name AS shelter_name, 
-            Dogs.breed_id, Breeds.name AS breed_name
+            Dogs.breed_id, IFNULL(Breeds.name, 'Mutt') AS breed_name
         FROM 
             Dogs 
         LEFT JOIN 
@@ -441,11 +441,6 @@ app.get('/dogs', function(req, res) {
             res.sendStatus(400);
             return;
         }
-
-        dogRows.forEach(row => {
-            row.birthdate = row.birthdate.toISOString().slice(0, 10);
-            row.shelter_arrival_date = row.shelter_arrival_date.toISOString().slice(0, 10);
-        });
 
         db.pool.query(getShelters, function(error, shelterRows, fields) {
             if (error) {
@@ -471,12 +466,56 @@ app.get('/dogs', function(req, res) {
     });
 });
 
-app.post('/add-dog', function(req, res) 
+app.post('/add-dog-form', function(req, res) 
 {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
+    console.log(data);
 
-    // Capture NULL values
+    // Create the query and run it on the database
+    insertDogs = `INSERT INTO Dogs (name, birthdate, training_level, is_family_friendly, shelter_arrival_date, is_active, shelter_id, breed_id) VALUES('${data['input-name']}', '${data['input-birthdate']}', '${data['input-training_level']}', '${data['input-is_family_friendly']}', '${data['input-shelter_arrival_date']}', '${data['input-is_active']}', '${data['input-shelter_id']}','${data['input-breed_id']}');`
+    //updateMatches = `UPDATE Matches SET is_active = 0 WHERE dog_id = '${data['input-dog_id']}';`;
+   // updateDogs = `UPDATE Dogs SET is_active = 0 Where dog_id = '${data['input-dog_id']}';`;
+
+    db.pool.query(insertDogs, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        } else {
+            res.redirect('/dogs');
+            /*db.pool.query(updateMatches, function(error, rows, fields){
+                if (error) {
+                    console.log(error)
+                    res.sendStatus(400);
+                } else {
+                    db.pool.query(updateDogs, function(error, rows, fields){
+                        if (error) {
+                            console.log(error)
+                            res.sendStatus(400);
+                        } else {
+                            res.redirect('/adoptions');
+                        }
+                    })
+                }
+            })*/
+        }
+    })
+});
+
+app.put('/put-dog', function(req,res,next){
+    let data = req.body;
+    
+    let dog_id = parseInt(data.dog_id);
+
+    let birthdate = data.birthdate;
+    if (!birthdate) 
+    {
+        birthdate = 'NULL';
+    }
+    
     let training_level = parseInt(data.training_level);
     if (isNaN(training_level))
     {
@@ -512,41 +551,27 @@ app.post('/add-dog', function(req, res)
     {
         breed_id = 'NULL'
     }
+    
+    let updateDogQuery = `UPDATE Dogs SET name = '${data.name}', birthdate = '${birthdate}', training_level = '${training_level}', is_family_friendly = '${data.is_family_friendly}', shelter_arrival_date = '${data.shelter_arrival_date}', is_active = '${data.is_active}', shelter_id = '${data.shelter_id}', breed_id = '${data.breed_id}' WHERE dog_id = '${dog_id}'`;
+    let getDogs = `SELECT Dogs.dog_id, Dogs.name, Dogs.birthdate, Dogs.training_level, Dogs.is_family_friendly, Dogs.shelter_arrival_date, Dogs.is_active, Dogs.shelter_id, Shelters.name AS shelter_name, Dogs.breed_id, IFNULL(Breeds.name, 'Mutt') AS breed_name FROM Dogs LEFT JOIN Shelters ON Dogs.shelter_id = Shelters.shelter_id LEFT JOIN  Breeds ON Dogs.breed_id = Breeds.breed_id WHERE Dogs.dog_id = '${dog_id}';`;
 
-
-
-    // Create the query and run it on the database
-    insertDogs = `INSERT INTO Dogs (name, birthdate, training_level, is_family_friendly, shelter_arrival_date, is_active, shelter_id, breed_id) VALUES('${data.name}', '${data.birthdate}', '${training_level}', '${is_family_friendly}', '${shelter_arrival_date}', '${is_active}', '${shelter_id}', '${breed_id}')`;
-    db.pool.query(insertDogs, function(error, rows, fields){
-
-        // Check to see if there was an error
+        // Run the 1st query
+    db.pool.query(updateDogQuery,  function(error, rows, fields){
         if (error) {
-
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
-        }
-        else
-        {
-            // If there was no error, perform a SELECT * on Breeds
-            getAllDogs = `SELECT * FROM Dogs;`;
-            db.pool.query(getAllDogs, function(error, rows, fields){
-
-                // If there was an error on the second query, send a 400
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error);
+        res.sendStatus(400);
+        } else {
+            db.pool.query(getDogs,  function(error, rows, fields){
                 if (error) {
-                    
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
                     console.log(error);
                     res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else
-                {   
+                } else {
                     res.send(rows);
                 }
             })
-        }
-    })
+        }   
+    });
 });
 
 app.put('/dogs-deactivate', function(req,res,next){

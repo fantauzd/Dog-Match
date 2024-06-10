@@ -45,7 +45,7 @@
 {{!-- Form to add a record to the table  --}}
 <h2>Adding Dogs with AJAX</h2>
 <p>To add a new dog, please enter their information below and click 'Submit'!</p>
-<form id="add-dog">
+<form id="add-dog-form" method="POST" action="/add-dog-form">
     <label for="input-name">Dog Name: </label>
     <input type="text" name="input-name" id="input-name" required><br>
     
@@ -83,16 +83,15 @@
 </form>
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="./js/add_dog.js"></script>
+{{!-- <script src="./js/add_dog.js"></script> --}}
 
 <h2>Updating A Dog Form</h2>
 <p>To update a specific dog select their name from the drop-down menu on the left and then enter desired changes</p>
 <form id="update-dog">
-
     <label for="select-name">Name: </label>
-    <select name="select-name" id="select-name">
-        <option value="test">Select a Dog</option>
-        {{#each names}}
+    <select id="select-name" name="select-name" required>
+        <option value="NULL">Select a Dog</option>
+        {{#each dogs}}
         <option value="{{this.dog_id}}">{{this.name}}</option>
         {{/each}}
     </select><br>
