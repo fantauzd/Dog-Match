@@ -17,7 +17,7 @@ addDogForm.addEventListener("submit", function (e) {
     let inputShelterID = document.getElementById("input-shelter_id");
     let inputShelterName = document.getElementById("input-shelter_name");
     let inputBreedID = document.getElementById("input-breed_id");
-    let inputBreedName = document.getElementById("input-bree_name");
+    let inputBreedName = document.getElementById("input-breed_name");
 
     // Get the values from the form fields
     let nameValue = inputName.value;

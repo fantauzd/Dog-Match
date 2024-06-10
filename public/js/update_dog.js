@@ -1,4 +1,3 @@
-
 // Get the objects we need to modify
 let updateDogForm = document.getElementById('update-dog');
 
@@ -64,7 +63,6 @@ updateDogForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-    location.reload();
 
 });
 
