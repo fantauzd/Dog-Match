@@ -81,6 +81,7 @@ function addRowToTable(data) {
     let postalCodeCell = document.createElement("TD");
     let stateCell = document.createElement("TD");
     let deleteCell = document.createElement("TD");
+    let activateCell = document.createElement("TD");
 
     // Fill the cells with correct data
     idCell.innerText = newRow.shelter_id;
@@ -92,9 +93,15 @@ function addRowToTable(data) {
     stateCell.innerText = newRow.state;
 
     deleteCell = document.createElement("button");
-    deleteCell.innerHTML = "Delete";
+    deleteCell.innerHTML = "Deactivate";
     deleteCell.onclick = function(){
         deleteShelter(newRow.shelter_id);
+    };
+
+    activateCell = document.createElement("button");
+    activateCell.innerHTML = "Reactivate";
+    activateCell.onclick = function(){
+        activateShelter(newRow.shelter_id);
     };
 
     // Add the cells to the row
@@ -106,6 +113,7 @@ function addRowToTable(data) {
     row.appendChild(postalCodeCell);
     row.appendChild(stateCell);
     row.appendChild(deleteCell);
+    row.appendChild(activateCell);
 
     row.setAttribute('data-value', newRow.shelter_id);
 
