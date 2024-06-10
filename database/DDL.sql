@@ -56,9 +56,9 @@ ENGINE = InnoDB;
 
 INSERT INTO Shelters (name, email, street_address, city, postal_code, state)
 VALUES
-	('West Valley Humane Society', 'westvalleyhumanesociety@gmail.com', '5234 Jebba Way', 'Boise', '52344', 'Idaho'),
-    ('Hand and Paw', 'handandpaw@outlook.com', '5214 Jebba Way', 'Boise', '52343', 'Idaho'),
-    ('Lake Lowell Animal Rescue', 'lakelowellanimal@gmail.com', '455 Zeland Street', 'Nampa', '34554', 'Idaho');
+	('West Valley Humane Society', 'westvalleyhumanesociety@gmail.com', '5234 Jebba Way', 'Boise', '52344', 'ID'),
+    ('Hand and Paw', 'handandpaw@outlook.com', '5214 Jebba Way', 'Boise', '52343', 'ID'),
+    ('Lake Lowell Animal Rescue', 'lakelowellanimal@gmail.com', '455 Zeland Street', 'Nampa', '34554', 'ID');
 
 -- -----------------------------------------------------
 -- Table 'dogs`
