@@ -1,3 +1,26 @@
+Citations:
+In our users.hbs file
+Lines 3 to 17 of users.hbs are not our original work. The scripts are used to enable
+a jquery plugin named Chosen from Harvest. The link contains details on the plugin: https://harvesthq.github.io/chosen/
+This link contains details on teh provider (Harvest): https://www.getharvest.com/--}}
+last updated 6/10/2024
+
+In our top-nav.css file:
+The css in top-nav.css was inspired by Harvard's Brand and Style Guide.
+However the code was orginal and written to use similar methods as
+described in the Harvard Business School Navigation Styleguide.
+The guide can be viewed here: 
+https://www.hbs.edu/marketing/web-development/desktop/navigation.html
+last updated 6/10/2024
+
+The following files app.js, 
+all the files in the views folder: view/layouts/main.hbs, adoptions.hbs, breed.hbs, dogs.hbs, dogs_has_users.hbs, index.hbs, matches.hbs, shelters.hbs, users.hbs
+and all the files in public/js folder: add-breed.js, add_dogs_has_users.js, add_match.js, add_shelter, add_user.js, delete_adoption, delete_breed.js, delete_dog.js, delete_dogs_has_users.js, delete.match.js, delete_shelter.js, delete_user.js, reactivate_shelter.js, update_breed.js, update_dog.js, update_shelter.js and update_user.js
+are modules adapted from the CS340 starter code with significant changes for enhanced functionality
+The starter code can be found here:
+https://github.com/osu-cs340-ecampus/nodejs-starter-app
+all files last updated 6/10/2024
+
 Project Outline and Database Outline: 
 However, we identified some issues during normalization and made the following changes:
 We added a shelter name as an attribute to the shelters entity. This is relevant information we should capture.
